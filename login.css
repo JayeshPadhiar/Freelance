@@ -1,0 +1,131 @@
+*{
+  margin:2px;
+  padding:0;
+  font-family:century gothic;
+ }
+ 
+body{
+  background:url(../images/image2.jpg);
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:center;
+  height:100px;
+}
+
+#main{
+	float:right;
+	list-style:none;
+	margin-top:13px;
+}
+#main  li  {
+	display:inline-block;
+}
+#main li a{
+	padding:5px;
+	transition:0.6s ease;
+	text-decoration:none;
+	font-family:poppins;
+	font-size:17px;
+	color:black;
+}
+
+#main li a:hover{
+  background-color:white;
+  color:blue;
+}
+#main .active{
+	background-color:#ebe1e1;
+}
+.text {
+	position:absolute;
+	width:600px;
+	height:300px;
+	text-align:center;
+	margin:23% 30% 30% 23%;
+	list-style:none;
+}
+.text h1{
+	text-align:center;
+	font-size:45px;
+	color:#020624;
+}
+.text a{
+	border:1px solid white;
+	padding:10px 25px;
+	text-decoration:none;
+	margin-top:8px;
+	display:inline-block;
+	color:white;
+	font-size:20px;
+	font-family:poppins;
+}
+.text a:hover{
+	background-color:white;
+	color:#0f12b8;
+}
+.login{
+	position:absolute;
+	top:15%;
+	left:35%;
+	width:300px;
+	height:400px;
+	padding:80px,40px;
+	box-sizing:border-box;
+	background:rgba(0,0,0,0.5);
+	
+}
+h2{
+	margin-top:10px;
+	text-align:center;
+	color:white;
+	padding:10px;
+	font-family:comic sans ms;
+
+}
+.login p {
+	font-weight:bold;
+	color:white;
+	padding:5px;
+
+}
+.login input{
+	width:90%;
+}
+.login input[type="email"],.login input[type="password"]
+{
+	border:none;
+	border-bottom:1px solid white;
+	background:transparent;
+	outline:none;
+}
+.login input[type="submit"]
+{
+	border:none;
+	outline:none;
+	cursor:pointer;
+	border-radius:20px;
+	height:30px;
+	background:white;
+	width:50%;
+	margin-left:25%;
+}
+.login input[type="submit"]:hover
+{
+	background-color:#f2748d;
+	color:white;
+}
+.login a{
+	margin-left:33%;
+   font-size:15px;
+   color:white;
+}
+.login a:hover{
+	color:blue;
+}
+.login img{
+	width:95px;
+	height:97px;
+	margin-top:-15%;
+	margin-left:33%;
+}
+	
