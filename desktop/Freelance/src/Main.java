@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -24,7 +26,6 @@ public class Main extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-
         showPass.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent i) {
@@ -35,10 +36,16 @@ public class Main extends JFrame {
                 }
             }
         });
+
+        signUpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                new SignUp();
+            }
+        });
     }
 
     public static void main(String[] args) {
         new Main();
     }
-
 }
