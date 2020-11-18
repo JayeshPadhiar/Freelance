@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Freelance:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Freelance_jar</output-path>
+    <root id="archive" name="Freelance.jar">
+      <element id="module-output" name="Freelance" />
+    </root>
+  </artifact>
+</component>
