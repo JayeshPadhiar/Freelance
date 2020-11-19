@@ -16,6 +16,7 @@ public class Login extends JFrame {
     private JCheckBox showPass;
     private JButton signUpButton;
     private JLabel title;
+
     public Login(){
         setTitle("Freelancer");
         setContentPane(loginPanel);
@@ -72,6 +73,11 @@ public class Login extends JFrame {
     }
 
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel ("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
         new Login();
     }
 }
