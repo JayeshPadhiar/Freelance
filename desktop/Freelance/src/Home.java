@@ -15,13 +15,30 @@ public class Home extends JFrame {
     private JTable table1;
     private JButton refreshButton;
     private JButton homeButton;
+    private JTextField firstname;
+    private JTextField lastname;
+    private JTextField uname;
+    private JCheckBox showpass;
+    private JTextField email;
+    private JTextField phone;
+    private JPasswordField pass;
+    private JPasswordField passconf;
+    private JButton signUpButton;
+    private JTextArea bio;
+    private JPanel editProfilePanel;
+    private JPanel userProfilePanel;
+    private JLabel userProfileName;
+    private JLabel userProfileUsername;
+    private JTextPane userProfilebio;
+    private JLabel userProfileEmail;
+    private JLabel userProfilePhone;
 
     public Home(){
         setTitle("Freelancer");
         setContentPane(homePanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(800,640));
-        setSize(800, 640);
+        setMinimumSize(new Dimension(1024,640));
+        setSize(1024, 640);
         setLocationRelativeTo(null);
         setVisible(true);
         profileButton.addActionListener(new ActionListener() {
