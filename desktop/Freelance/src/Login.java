@@ -62,7 +62,7 @@ public class Login extends JFrame {
                         JOptionPane.showMessageDialog(null, "Welcome " + loginResult.getString("fname") + " " + loginResult.getString("lname") + " !");
                     }
                     else {
-                        JOptionPane.showMessageDialog(null,"Waapas se kar chutiye");
+                        JOptionPane.showMessageDialog(null,"Waapas se kar chutiye", "Error", JOptionPane.ERROR_MESSAGE);
                     }
 
                 } catch (SQLException throwables) {

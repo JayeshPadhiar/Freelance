@@ -112,10 +112,11 @@ public class SignUp extends JFrame {
                 insertCreds.setString(6, Arrays.toString(pass.getPassword()));
                 insertCreds.executeUpdate();
 
-                JOptionPane.showMessageDialog(null, "Account Created !!!");
+                JOptionPane.showMessageDialog(null, "Account Created !!!\nLogin to continue");
                 dispose();
                 new Login();
             } catch (SQLException throwables) {
+                JOptionPane.showMessageDialog(null, "Error : " +throwables.getMessage(), "Failure", JOptionPane.ERROR_MESSAGE);
                 throwables.printStackTrace();
             }
         }
