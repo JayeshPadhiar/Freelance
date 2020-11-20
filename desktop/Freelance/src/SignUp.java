@@ -18,6 +18,7 @@ public class SignUp extends JFrame {
     private JTextField uname;
     private JTextField email;
     private JTextField phone;
+    private JTextArea bio;
     private JButton signUpButton;
     private JPasswordField pass;
     private JPasswordField passconf;
@@ -54,6 +55,7 @@ public class SignUp extends JFrame {
                         + "fname VARCHAR(32) NOT NULL,"
                         + "lname VARCHAR(32),"
                         + "uname VARCHAR(64) NOT NULL PRIMARY KEY,"
+                        + "bio TEXT,"
                         + "email VARCHAR(32) NOT NULL,"
                         + "phone VARCHAR(32),"
                         + "password VARCHAR(32) NOT NULL);"
@@ -101,15 +103,16 @@ public class SignUp extends JFrame {
             try {
                 Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
                 PreparedStatement insertCreds = freeConn.prepareStatement(
-                        "INSERT INTO users (fname, lname, uname, email, phone, password) VALUES (?, ? ,?, ?, ?, MD5(?));"
+                        "INSERT INTO users (fname, lname, uname, bio, email, phone, password) VALUES (?, ? ,?, ?, ?, ?, MD5(?));"
                 );
 
                 insertCreds.setString(1, firstname.getText());
                 insertCreds.setString(2, lastname.getText());
                 insertCreds.setString(3, uname.getText());
-                insertCreds.setString(4, email.getText());
-                insertCreds.setString(5, phone.getText());
-                insertCreds.setString(6, Arrays.toString(pass.getPassword()));
+                insertCreds.setString(4, bio.getText());
+                insertCreds.setString(5, email.getText());
+                insertCreds.setString(6, phone.getText());
+                insertCreds.setString(7, Arrays.toString(pass.getPassword()));
                 insertCreds.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Account Created !!!\nLogin to continue");

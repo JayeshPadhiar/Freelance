@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="220" width="900" height="600"/>
+      <xy x="49" y="63" width="900" height="600"/>
     </constraints>
     <properties>
       <minimumSize width="900" height="600"/>
@@ -22,7 +22,7 @@
         </properties>
       </component>
       <grid id="4eff6" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="20" left="0" bottom="0" right="0"/>
+        <margin top="10" left="0" bottom="10" right="0"/>
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -218,15 +218,6 @@
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
               </vspacer>
-              <component id="5dc87" class="javax.swing.JButton" binding="signUpButton">
-                <constraints>
-                  <grid row="15" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="0.0" weighty="0.0"/>
-                </constraints>
-                <properties>
-                  <text value="SignUp"/>
-                </properties>
-              </component>
               <component id="a7693" class="javax.swing.JPasswordField" binding="pass">
                 <constraints>
                   <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
@@ -254,6 +245,52 @@
                   <text value=""/>
                 </properties>
               </component>
+              <component id="a22a" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="15" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <text value="Bio"/>
+                </properties>
+              </component>
+              <component id="5dc87" class="javax.swing.JButton" binding="signUpButton">
+                <constraints>
+                  <grid row="18" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <text value="SignUp"/>
+                </properties>
+              </component>
+              <scrollpane id="4a09d">
+                <constraints>
+                  <grid row="16" column="0" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="f75ab" class="javax.swing.JTextArea" binding="bio">
+                    <constraints/>
+                    <properties>
+                      <rows value="5"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <vspacer id="c251d">
+                <constraints>
+                  <grid row="17" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+              </vspacer>
+              <vspacer id="89e1b">
+                <constraints>
+                  <grid row="19" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+              </vspacer>
             </children>
           </grid>
         </children>
