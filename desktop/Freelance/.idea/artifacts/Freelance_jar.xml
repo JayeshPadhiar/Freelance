@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Freelance_jar</output-path>
     <root id="archive" name="Freelance.jar">
       <element id="module-output" name="Freelance" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/mysql-connector-java.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

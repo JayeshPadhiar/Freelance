@@ -49,23 +49,30 @@ public class Login extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
                     Connection mysqlConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
 
+                    String uname = username.getText();
+                    String pass = Arrays.toString(password.getPassword());
+
                     PreparedStatement loginStatement = mysqlConn.prepareStatement("SELECT * FROM users WHERE uname=? AND password=MD5(?)");
-
-                    loginStatement.setString(1, username.getText());
-                    loginStatement.setString(2, Arrays.toString(password.getPassword()));
-
+                    loginStatement.setString(1, uname);
+                    loginStatement.setString(2, pass);
                     ResultSet loginResult = loginStatement.executeQuery();
 
                     if (loginResult.next()){
+                        new Home(uname);
                         JOptionPane.showMessageDialog(null, "Welcome " + loginResult.getString("fname") + " " + loginResult.getString("lname") + " !");
+                        dispose();
                     }
                     else {
-                        JOptionPane.showMessageDialog(null,"Waapas se kar chutiye", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null,"Invalid Username of Password", "Error", JOptionPane.ERROR_MESSAGE);
                     }
 
-                } catch (SQLException throwables) {
+                    mysqlConn.close();
+
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    JOptionPane.showMessageDialog(null,throwables, "Error", JOptionPane.ERROR_MESSAGE);
                     throwables.printStackTrace();
                 }
             }

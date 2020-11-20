@@ -80,19 +80,18 @@ public class SignUp extends JFrame {
             JOptionPane.showMessageDialog(null, "Enter First Name");
             return false;
         }
-        else if (uname.getText().equals("")){
+        if (uname.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Enter Username");
             return false;
         }
-        else if(!matcher.matches()){
+        if(!matcher.matches()){
             JOptionPane.showMessageDialog(null, "Enter valid Email");
             return false;
         }
-        else if (!Arrays.equals(pass.getPassword(), passconf.getPassword())) {
+        if (!Arrays.equals(pass.getPassword(), passconf.getPassword())) {
             JOptionPane.showMessageDialog(null, "Validate passwords again");
             return false;
         }
-        else
             return true;
     }
 
@@ -116,9 +115,12 @@ public class SignUp extends JFrame {
                 insertCreds.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Account Created !!!\nLogin to continue");
+
+                freeConn.close();
                 dispose();
                 new Login();
-            } catch (SQLException throwables) {
+            }
+            catch (SQLException throwables) {
                 JOptionPane.showMessageDialog(null, "Error : " +throwables.getMessage(), "Failure", JOptionPane.ERROR_MESSAGE);
                 throwables.printStackTrace();
             }
@@ -161,6 +163,6 @@ public class SignUp extends JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
-        new SignUp();
+        //new SignUp();
     }
 }
