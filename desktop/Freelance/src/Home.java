@@ -1,9 +1,14 @@
 import sun.awt.ConstrainableGraphics;
 
 import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.*;
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -11,12 +16,12 @@ import java.util.regex.Pattern;
 
 public class Home extends JFrame {
 
+    private String username;
     private Connection homeConn;
 
-    private String username;
     private JPanel mainCard;
-    private JPanel homePanel;
 
+    private JPanel homePanel;
     private JPanel profileWindow;
     private JPanel jobListWindow;
     private JPanel addJobWindow;
@@ -26,6 +31,7 @@ public class Home extends JFrame {
     private JButton homeButton;
     private JButton refreshButton;
     private JButton addJobButton;
+
     private JTable table1;
 
     private JPanel editProfilePanel;
@@ -43,7 +49,7 @@ public class Home extends JFrame {
     private JPanel userProfilePanel;
     private JLabel userProfileName;
     private JLabel userProfileUsername;
-    private JTextPane userProfilebio;
+    private JTextPane userprofilebio;
     private JLabel userProfileEmail;
     private JLabel userProfilePhone;
 
@@ -91,8 +97,35 @@ public class Home extends JFrame {
                 updateUserProfile();
             }
         });
+
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                profilePanelFunction("ponkaj");
+            }
+        });
+
+        editshowpass.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent i) {
+                if (i.getStateChange() == ItemEvent.SELECTED) {
+                    editpass.setEchoChar((char) 0);
+                    editpassconf.setEchoChar((char) 0);
+                } else {
+                    editpass.setEchoChar('•');
+                    editpassconf.setEchoChar('•');
+                }
+            }
+        });
     }
 
+
+
+
+
+
+
+    //Profile
     private boolean validateEditProfile(){
         Matcher matcher = pattern.matcher(editemail.getText());
         if (editfirstname.getText().equals("")){
@@ -147,10 +180,14 @@ public class Home extends JFrame {
             profileCredQuery.setString(1, username);
             ResultSet profileCredentials = profileCredQuery.executeQuery();
 
+            SimpleAttributeSet center = new SimpleAttributeSet();
+            StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+
             if (profileCredentials.next()){
                 userProfileName.setText(profileCredentials.getString("fname") + " " + profileCredentials.getString("lname"));
                 userProfileUsername.setText("@" + profileCredentials.getString("uname"));
-                userProfilebio.setText(profileCredentials.getString("bio"));
+                userprofilebio.setParagraphAttributes(center, false);
+                userprofilebio.setText(profileCredentials.getString("bio"));
                 userProfileEmail.setText(profileCredentials.getString("email"));
                 userProfilePhone.setText(profileCredentials.getString("phone"));
 
@@ -162,9 +199,8 @@ public class Home extends JFrame {
                 editphone.setText(profileCredentials.getString("phone"));
             }
             else {
-                JOptionPane.showMessageDialog(null,"Invalid User", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Invalid User : "+username, "Error", JOptionPane.ERROR_MESSAGE);
             }
-
         }
         catch (SQLException throwables) {
             JOptionPane.showMessageDialog(null,throwables, "Error: ", JOptionPane.ERROR_MESSAGE);
@@ -180,13 +216,19 @@ public class Home extends JFrame {
             editProfilePanel.setEnabled(false);
             editProfilePanel.setVisible(false);
         }
-
         profileWindow.setVisible(true);
         jobListWindow.setVisible(false);
         jobViewWindow.setVisible(false);
         addJobWindow.setVisible(false);
-
     }
+
+
+
+
+
+
+
+
 
     private void homeFunction(){
         profileWindow.setVisible(false);
