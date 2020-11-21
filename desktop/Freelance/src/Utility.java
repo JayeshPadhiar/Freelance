@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.sql.*;
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -12,6 +13,19 @@ public class Utility {
     private static final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
 
     public Utility(){
+    }
+
+    public void clearPanel(Panel panel){
+        for(Component control : panel.getComponents()) {
+            if(control instanceof JTextField) {
+                JTextField ctrl = (JTextField) control;
+                ctrl.setText("");
+            }
+            else if (control instanceof JTextArea) {
+                JTextArea ctr = (JTextArea) control;
+                ctr.setText("");
+            }
+        }
     }
 
     public boolean profileValidate(JTextField firstname, JTextField uname, JTextField email, JPasswordField pass, JPasswordField passconf){
@@ -30,6 +44,22 @@ public class Utility {
         }
         if (!Arrays.equals(pass.getPassword(), passconf.getPassword())) {
             JOptionPane.showMessageDialog(null, "Validate passwords again");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean jobPostValidate(JTextField jobTitle, JTextField jobDue, JTextField jobCost){
+        if (jobTitle.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Enter Job Title");
+            return false;
+        }
+        if (jobDue.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Enter Due Date");
+            return false;
+        }
+        if (jobCost.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Enter Preferred Cost");
             return false;
         }
         return true;

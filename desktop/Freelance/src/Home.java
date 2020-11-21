@@ -3,7 +3,6 @@ import sun.awt.ConstrainableGraphics;
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,8 +10,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.*;
 import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Home extends JFrame {
 
@@ -48,17 +45,25 @@ public class Home extends JFrame {
     private JButton editSaveButton;
     private JTextArea editbio;
 
+    private JPanel addJobPanel;
     private JPanel userProfilePanel;
+
+
     private JLabel userProfileName;
     private JLabel userProfileUsername;
     private JTextPane userprofilebio;
     private JLabel userProfileEmail;
     private JLabel userProfilePhone;
 
-    private static final String EMAIL_PATTERN =
-            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    private static final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+    private JTextField newJobTitle;
+    private JTextArea newJobDesc;
+    private JTextField newJobDue;
+    private JTextField newJobCost;
+    private JButton newJobPostButton;
+    private JPanel applyJobPanel;
+    private JButton applyButton;
+    private JTextArea textArea1;
+    private JTextField textField1;
 
     public Home(String user){
         this.username = user;
@@ -91,7 +96,23 @@ public class Home extends JFrame {
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+
                 homeFunction();
+            }
+        });
+
+        addJobButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                //utility.clearPanel();
+                addJobFunction();
+            }
+        });
+
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                jobViewFunction();
             }
         });
 
@@ -99,13 +120,6 @@ public class Home extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 updateUserProfile();
-            }
-        });
-
-        refreshButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                profilePanelFunction("ponkaj");
             }
         });
 
@@ -121,35 +135,40 @@ public class Home extends JFrame {
                 }
             }
         });
+
+        newJobPostButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (utility.jobPostValidate(newJobTitle, newJobDue, newJobCost)){
+                    utility.checkDatabase();
+                    try {
+                        Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
+                        PreparedStatement insertJobPost = freeConn.prepareStatement(
+                                "INSERT INTO jobs (jobtitle, author, jobdesc, jobdue, jobcost) VALUES (?, ? ,?, ?, ?);"
+                        );
+
+                        insertJobPost.setString(1, newJobTitle.getText());
+                        insertJobPost.setString(2, username);
+                        insertJobPost.setString(3, newJobDesc.getText());
+                        insertJobPost.setString(4, newJobDue.getText());
+                        insertJobPost.setString(5, newJobCost.getText());
+                        insertJobPost.executeUpdate();
+
+                        JOptionPane.showMessageDialog(null, "Job Posted!");
+
+                        freeConn.close();
+                    }
+                    catch (SQLException throwables) {
+                        JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
+                        utility.checkDatabase();
+                        throwables.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
 
-
-
-
-
-
-    //Profile
-    /*private boolean validateEditProfile(){
-        Matcher matcher = pattern.matcher(editemail.getText());
-        if (editfirstname.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Enter First Name");
-            return false;
-        }
-        if (edituname.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Enter Username");
-            return false;
-        }
-        if(!matcher.matches()){
-            JOptionPane.showMessageDialog(null, "Enter valid Email");
-            return false;
-        }
-        if (!Arrays.equals(editpass.getPassword(), editpassconf.getPassword())) {
-            JOptionPane.showMessageDialog(null, "Validate passwords again");
-            return false;
-        }
-        return true;
-    }*/
 
     public void updateUserProfile(){
         if (utility.profileValidate(editfirstname, edituname, editemail, editpass, editpassconf)){
@@ -229,14 +248,6 @@ public class Home extends JFrame {
         addJobWindow.setVisible(false);
     }
 
-
-
-
-
-
-
-
-
     private void homeFunction(){
         profileWindow.setVisible(false);
         jobListWindow.setVisible(true);
@@ -254,8 +265,8 @@ public class Home extends JFrame {
     private void addJobFunction(){
         profileWindow.setVisible(false);
         jobListWindow.setVisible(false);
-        jobViewWindow.setVisible(false);
         addJobWindow.setVisible(true);
+        jobViewWindow.setVisible(false);
     }
 
 
