@@ -9,6 +9,8 @@ import java.util.Arrays;
 
 public class Login extends JFrame {
 
+    private Utility utility;
+
     private JPanel loginPanel;
     private JTextField username;
     private JPasswordField password;
@@ -18,6 +20,9 @@ public class Login extends JFrame {
     private JLabel title;
 
     public Login(){
+
+        this.utility = new Utility();
+
         setTitle("Freelancer");
         setContentPane(loginPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -73,6 +78,7 @@ public class Login extends JFrame {
 
                 } catch (SQLException | ClassNotFoundException throwables) {
                     JOptionPane.showMessageDialog(null,throwables, "Error", JOptionPane.ERROR_MESSAGE);
+                    utility.checkDatabase();
                     throwables.printStackTrace();
                 }
             }

@@ -12,6 +12,8 @@ import java.util.regex.Pattern;
 
 public class SignUp extends JFrame {
 
+    private Utility utility;
+
     private JPanel mainPanel;
     private JTextField firstname;
     private JTextField lastname;
@@ -29,76 +31,10 @@ public class SignUp extends JFrame {
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private static final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
 
-    public void checkDatabase(){
-        try {
-            System.out.println("Connecting to Database");
-
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
-            System.out.println("Connected to Database");
-
-            freeConn.close();
-        }
-        catch (SQLException sqlEx) {
-            try {
-                System.out.println("Connecting to MySql");
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection mySqlConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", "password");
-                System.out.println("Connected to MySql");
-                PreparedStatement createDB = mySqlConn.prepareStatement("CREATE DATABASE IF NOT EXISTS freelancer;");
-                createDB.executeUpdate();
-                mySqlConn.close();
-
-                Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
-                System.out.println("Connected to database 'freelancer'");
-                PreparedStatement createTable = freeConn.prepareStatement("CREATE TABLE users ("
-                        + "fname VARCHAR(32) NOT NULL,"
-                        + "lname VARCHAR(32),"
-                        + "uname VARCHAR(64) NOT NULL PRIMARY KEY,"
-                        + "bio TEXT,"
-                        + "email VARCHAR(32) NOT NULL,"
-                        + "phone VARCHAR(32),"
-                        + "password VARCHAR(32) NOT NULL);"
-                );
-                createTable.executeUpdate();
-                System.out.println("Table Created");
-                freeConn.close();
-
-            } catch (SQLException | ClassNotFoundException mySqlEx) {
-                JOptionPane.showMessageDialog(null, mySqlEx.getMessage());
-                mySqlEx.printStackTrace();
-            }
-        }
-        catch (ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    public boolean signUpValidate(){
-        Matcher matcher = pattern.matcher(email.getText());
-        if (firstname.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Enter First Name");
-            return false;
-        }
-        if (uname.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Enter Username");
-            return false;
-        }
-        if(!matcher.matches()){
-            JOptionPane.showMessageDialog(null, "Enter valid Email");
-            return false;
-        }
-        if (!Arrays.equals(pass.getPassword(), passconf.getPassword())) {
-            JOptionPane.showMessageDialog(null, "Validate passwords again");
-            return false;
-        }
-            return true;
-    }
-
     public void registerUser(){
 
-        if (signUpValidate()){
-            checkDatabase();
+        if (utility.profileValidate(firstname, uname, email, pass, passconf)){
+            this.utility.checkDatabase();
             try {
                 Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
                 PreparedStatement insertCreds = freeConn.prepareStatement(
@@ -121,13 +57,17 @@ public class SignUp extends JFrame {
                 new Login();
             }
             catch (SQLException throwables) {
-                JOptionPane.showMessageDialog(null, "Error : " +throwables.getMessage(), "Failure", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
+                utility.checkDatabase();
                 throwables.printStackTrace();
             }
         }
     }
 
     public SignUp(){
+
+        this.utility = new Utility();
+
         setTitle("Freelancer - SignUp");
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

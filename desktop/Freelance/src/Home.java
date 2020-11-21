@@ -19,6 +19,8 @@ public class Home extends JFrame {
     private String username;
     private Connection homeConn;
 
+    private Utility utility;
+
     private JPanel mainCard;
 
     private JPanel homePanel;
@@ -60,6 +62,8 @@ public class Home extends JFrame {
 
     public Home(String user){
         this.username = user;
+        this.utility = new Utility();
+
         setTitle("Freelancer");
         setContentPane(homePanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -126,7 +130,7 @@ public class Home extends JFrame {
 
 
     //Profile
-    private boolean validateEditProfile(){
+    /*private boolean validateEditProfile(){
         Matcher matcher = pattern.matcher(editemail.getText());
         if (editfirstname.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Enter First Name");
@@ -145,10 +149,11 @@ public class Home extends JFrame {
             return false;
         }
         return true;
-    }
+    }*/
 
     public void updateUserProfile(){
-        if (validateEditProfile()){
+        if (utility.profileValidate(editfirstname, edituname, editemail, editpass, editpassconf)){
+            this.utility.checkDatabase();
             try {
                 Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
                 PreparedStatement insertCreds = freeConn.prepareStatement(
@@ -169,6 +174,7 @@ public class Home extends JFrame {
             }
             catch (SQLException throwables) {
                 JOptionPane.showMessageDialog(null, "Error : " +throwables.getMessage(), "Failure", JOptionPane.ERROR_MESSAGE);
+                this.utility.checkDatabase();
                 throwables.printStackTrace();
             }
         }
@@ -204,6 +210,7 @@ public class Home extends JFrame {
         }
         catch (SQLException throwables) {
             JOptionPane.showMessageDialog(null,throwables, "Error: ", JOptionPane.ERROR_MESSAGE);
+            this.utility.checkDatabase();
             throwables.printStackTrace();
         }
 
