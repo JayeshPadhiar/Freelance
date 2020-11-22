@@ -46,6 +46,7 @@ public class Home extends JFrame {
     private JTextArea editbio;
 
     private JPanel addJobPanel;
+    private JPanel applyJobPanel;
     private JPanel userProfilePanel;
 
 
@@ -60,10 +61,13 @@ public class Home extends JFrame {
     private JTextField newJobDue;
     private JTextField newJobCost;
     private JButton newJobPostButton;
-    private JPanel applyJobPanel;
-    private JButton applyButton;
-    private JTextArea textArea1;
-    private JTextField textField1;
+
+    private JLabel jobviewtitle;
+    private JLabel jobviewauthor;
+    private JTextPane jobviewdesc;
+    private JLabel jobviewdue;
+    private JLabel jobviewcost;
+    private JButton jobViewApplyButton;
 
     public Home(String user){
         this.username = user;
@@ -72,8 +76,8 @@ public class Home extends JFrame {
         setTitle("Freelancer");
         setContentPane(homePanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(1024,640));
-        setSize(1024, 640);
+        setMinimumSize(new Dimension(1024,768));
+        setSize(1024, 768);
         setLocationRelativeTo(null);
         setVisible(true);
 
@@ -112,7 +116,7 @@ public class Home extends JFrame {
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                jobViewFunction();
+                jobViewFunction(7);
             }
         });
 
@@ -156,6 +160,11 @@ public class Home extends JFrame {
 
                         JOptionPane.showMessageDialog(null, "Job Posted!");
 
+                        newJobTitle.setText(null);
+                        newJobDesc.setText(null);
+                        newJobDue.setText(null);
+                        newJobCost.setText(null);
+
                         freeConn.close();
                     }
                     catch (SQLException throwables) {
@@ -190,6 +199,9 @@ public class Home extends JFrame {
                 insertCreds.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Profile Updated");
                 this.username = edituname.getText();
+
+                profilePanelFunction(this.username);
+
             }
             catch (SQLException throwables) {
                 JOptionPane.showMessageDialog(null, "Error : " +throwables.getMessage(), "Failure", JOptionPane.ERROR_MESSAGE);
@@ -242,6 +254,10 @@ public class Home extends JFrame {
             editProfilePanel.setEnabled(false);
             editProfilePanel.setVisible(false);
         }
+
+        userProfilePanel.revalidate();
+        profileWindow.revalidate();
+
         profileWindow.setVisible(true);
         jobListWindow.setVisible(false);
         jobViewWindow.setVisible(false);
@@ -255,7 +271,46 @@ public class Home extends JFrame {
         addJobWindow.setVisible(false);
     }
 
-    private void jobViewFunction(){
+    private void jobViewFunction(int jobID){
+
+        try {
+            PreparedStatement jobViewQuery = homeConn.prepareStatement("SELECT jobtitle, author, jobdesc, jobdue, jobcost FROM jobs WHERE jobid=?");
+            jobViewQuery.setInt(1, jobID);
+            ResultSet jobCreds = jobViewQuery.executeQuery();
+
+            SimpleAttributeSet center = new SimpleAttributeSet();
+            StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+
+            if (jobCreds.next()){
+                jobviewtitle.setText(jobCreds.getString("jobtitle"));
+                jobviewauthor.setText("By : @" + jobCreds.getString("author"));
+                jobviewdesc.setParagraphAttributes(center, false);
+                jobviewdesc.setText(jobCreds.getString("jobdesc"));
+                jobviewdue.setText("Due Date : " + jobCreds.getString("jobdue"));
+                jobviewcost.setText("Est. Cost : " + jobCreds.getString("jobcost"));
+            }
+            else {
+                JOptionPane.showMessageDialog(null,"Job not found.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        catch (SQLException throwables) {
+            JOptionPane.showMessageDialog(null,throwables, "Error: ", JOptionPane.ERROR_MESSAGE);
+            this.utility.checkDatabase();
+            throwables.printStackTrace();
+        }
+
+        /*if(username.equals(this.username)){
+            editProfilePanel.setEnabled(true);
+            editProfilePanel.setVisible(true);
+        }
+        else {
+            System.out.println(this.username + username);
+            editProfilePanel.setEnabled(false);
+            editProfilePanel.setVisible(false);
+        }*/
+
+        jobViewWindow.revalidate();
+
         profileWindow.setVisible(false);
         jobListWindow.setVisible(false);
         jobViewWindow.setVisible(true);
