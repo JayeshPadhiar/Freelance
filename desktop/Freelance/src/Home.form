@@ -836,7 +836,7 @@
                         <properties/>
                         <border type="none"/>
                         <children>
-                          <component id="be506" class="javax.swing.JTextArea" default-binding="true">
+                          <component id="be506" class="javax.swing.JTextArea" binding="applyapplication">
                             <constraints/>
                             <properties>
                               <rows value="6"/>
@@ -852,7 +852,7 @@
                           <text value="Preferred Cost"/>
                         </properties>
                       </component>
-                      <component id="e1280" class="javax.swing.JTextField" default-binding="true">
+                      <component id="e1280" class="javax.swing.JTextField" binding="applycost">
                         <constraints>
                           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>

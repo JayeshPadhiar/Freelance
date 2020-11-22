@@ -68,6 +68,8 @@ public class Home extends JFrame {
     private JLabel jobviewdue;
     private JLabel jobviewcost;
     private JButton jobViewApplyButton;
+    private JTextArea applyapplication;
+    private JTextField applycost;
 
     public Home(String user){
         this.username = user;
@@ -160,10 +162,12 @@ public class Home extends JFrame {
 
                         JOptionPane.showMessageDialog(null, "Job Posted!");
 
-                        newJobTitle.setText(null);
+                        utility.clearPanel(addJobPanel);
+
+                        /*newJobTitle.setText(null);
                         newJobDesc.setText(null);
                         newJobDue.setText(null);
-                        newJobCost.setText(null);
+                        newJobCost.setText(null);*/
 
                         freeConn.close();
                     }

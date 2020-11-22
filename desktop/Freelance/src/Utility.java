@@ -15,15 +15,41 @@ public class Utility {
     public Utility(){
     }
 
-    public void clearPanel(Panel panel){
+    public void clearPanel(JComponent panel){
         for(Component control : panel.getComponents()) {
             if(control instanceof JTextField) {
-                JTextField ctrl = (JTextField) control;
-                ctrl.setText("");
+                JTextField textField = (JTextField) control;
+                textField.setText(null);
             }
             else if (control instanceof JTextArea) {
-                JTextArea ctr = (JTextArea) control;
-                ctr.setText("");
+                JTextArea textArea = (JTextArea) control;
+                textArea.setText(null);
+            }
+            else if (control instanceof JPanel) {
+                JPanel jPanel = (JPanel) control;
+                clearPanel(jPanel);
+            }
+            else if (control instanceof JScrollPane) {
+                System.out.println("Yeah baby !");
+                JViewport vport = ((JScrollPane) control).getViewport();
+
+                try {
+                    JTextArea textArea = (JTextArea) vport.getView();
+                    textArea.setText(null);
+                }
+                catch (Exception e){
+                    JTextField textField = (JTextField) vport.getView();
+                    textField.setText(null);
+                }
+
+                try {
+                    JTextField textField = (JTextField) vport.getView();
+                    textField.setText(null);
+                }
+                catch (Exception e){
+                    JTextArea textArea = (JTextArea) vport.getView();
+                    textArea.setText(null);
+                }
             }
         }
     }
