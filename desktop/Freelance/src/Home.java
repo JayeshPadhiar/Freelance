@@ -1,5 +1,3 @@
-import sun.awt.ConstrainableGraphics;
-
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -16,7 +14,7 @@ public class Home extends JFrame {
     private String username;
     private Connection homeConn;
 
-    private Utility utility;
+    private final Utility utility;
 
     private JPanel mainCard;
 
@@ -68,6 +66,8 @@ public class Home extends JFrame {
     private JLabel jobviewdue;
     private JLabel jobviewcost;
     private JButton jobViewApplyButton;
+    private JButton jobViewCancelButton;
+
     private JTextArea applyapplication;
     private JTextField applycost;
 
@@ -118,7 +118,7 @@ public class Home extends JFrame {
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                jobViewFunction(7);
+                jobViewFunction(18);
             }
         });
 
@@ -176,6 +176,36 @@ public class Home extends JFrame {
                         utility.checkDatabase();
                         throwables.printStackTrace();
                     }
+                }
+            }
+        });
+
+        jobViewApplyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+                if(applyJobPanel.isEnabled() && jobViewCancelButton.isEnabled() && applyJobPanel.isVisible() && jobViewCancelButton.isVisible()){
+
+                    //utility.clearPanel(applyJobPanel);
+
+                    System.out.println("Is Enabled !");
+
+                    //applyJobPanel.setVisible(false);
+                    //jobViewCancelButton.setVisible(false);
+
+                    applyJobPanel.setEnabled(false);
+                    jobViewCancelButton.setEnabled(false);
+
+                    jobViewWindow.revalidate();
+
+                }else{
+                    applyJobPanel.setEnabled(true);
+                    applyJobPanel.setVisible(true);
+
+                    jobViewCancelButton.setEnabled(true);
+                    jobViewCancelButton.setVisible(true);
+
+                    jobViewWindow.revalidate();
                 }
             }
         });
@@ -330,10 +360,12 @@ public class Home extends JFrame {
 
 
     public static void main(String[] args) {
-        try {
+        /*try {
             UIManager.setLookAndFeel ("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
-        }
+        }*/
+
+        new Home("jay");
     }
 }

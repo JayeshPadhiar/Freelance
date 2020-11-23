@@ -98,11 +98,11 @@ public class SignUp extends JFrame {
     }
 
     public static void main(String[] args) {
-        try {
+        /*try {
             UIManager.setLookAndFeel ("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
-        }
+        }*/
         //new SignUp();
     }
 }
