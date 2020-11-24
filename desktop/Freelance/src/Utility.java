@@ -91,6 +91,22 @@ public class Utility {
         return true;
     }
 
+    public boolean jobApplyValidate(JTextField jobTitle, JTextField jobDue, JTextField jobCost){
+        if (jobTitle.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Enter Job Title");
+            return false;
+        }
+        if (jobDue.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Enter Due Date");
+            return false;
+        }
+        if (jobCost.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Enter Preferred Cost");
+            return false;
+        }
+        return true;
+    }
+
     public void initDatabase(){
         try {
             System.out.println("Connecting to MySql");
@@ -123,7 +139,7 @@ public class Utility {
                     + "jobdue DATE NOT NULL,"
                     + "jobcost DECIMAL(8,2) NOT NULL,"
                     + "applied JSON,"
-                    + "FOREIGN KEY (author) REFERENCES users(uname));"
+                    + "FOREIGN KEY (author) REFERENCES users(uname) ON DELETE CASCADE ON UPDATE CASCADE);"
             );
             createTableJobs.executeUpdate();
             System.out.println("Table Created : jobs");

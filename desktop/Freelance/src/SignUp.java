@@ -25,6 +25,7 @@ public class SignUp extends JFrame {
     private JPasswordField pass;
     private JPasswordField passconf;
     private JCheckBox showpass;
+    private JButton loginButton;
 
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -71,8 +72,8 @@ public class SignUp extends JFrame {
         setTitle("Freelancer - SignUp");
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(900, 600));
-        setSize(900, 600);
+        setMinimumSize(new Dimension(900, 640));
+        setSize(900, 640);
         setLocationRelativeTo(null);
         setVisible(true);
 
@@ -95,14 +96,22 @@ public class SignUp extends JFrame {
                 registerUser();
             }
         });
+
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                dispose();
+                new Login();
+            }
+        });
     }
 
     public static void main(String[] args) {
-        /*try {
+        try {
             UIManager.setLookAndFeel ("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
-        }*/
+        }
         //new SignUp();
     }
 }

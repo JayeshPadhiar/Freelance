@@ -705,7 +705,7 @@
                   </grid>
                 </children>
               </grid>
-              <grid id="960b7" binding="jobViewWindow" layout-manager="GridLayoutManager" row-count="10" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="960b7" binding="jobViewWindow" layout-manager="GridLayoutManager" row-count="10" column-count="10" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="10" bottom="10" right="10"/>
                 <constraints>
                   <card name="Card4"/>
@@ -715,12 +715,12 @@
                 <children>
                   <vspacer id="3e1a">
                     <constraints>
-                      <grid row="0" column="3" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="3" row-span="1" col-span="5" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                     </constraints>
                   </vspacer>
                   <component id="a5ac4" class="javax.swing.JLabel" binding="jobviewtitle">
                     <constraints>
-                      <grid row="1" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="1" column="3" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <font name="Ubuntu" size="36" style="0"/>
@@ -729,7 +729,7 @@
                   </component>
                   <component id="50cd1" class="javax.swing.JLabel" binding="jobviewauthor">
                     <constraints>
-                      <grid row="2" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="2" column="3" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <font name="Ubuntu" size="26" style="0"/>
@@ -738,7 +738,7 @@
                   </component>
                   <scrollpane id="1ebef">
                     <constraints>
-                      <grid row="4" column="3" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                      <grid row="4" column="3" row-span="1" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
                         <minimum-size width="-1" height="150"/>
                         <preferred-size width="-1" height="150"/>
                       </grid>
@@ -768,12 +768,12 @@
                   </component>
                   <vspacer id="4175d">
                     <constraints>
-                      <grid row="6" column="3" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <grid row="6" column="3" row-span="1" col-span="5" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                     </constraints>
                   </vspacer>
                   <hspacer id="24acd">
                     <constraints>
-                      <grid row="4" column="7" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="4" column="9" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                   </hspacer>
                   <hspacer id="a69d3">
@@ -783,7 +783,7 @@
                   </hspacer>
                   <component id="f2012" class="javax.swing.JLabel" binding="jobviewcost">
                     <constraints>
-                      <grid row="5" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="5" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <font name="Ubuntu" size="20" style="0"/>
@@ -797,7 +797,7 @@
                   </hspacer>
                   <hspacer id="4ec9">
                     <constraints>
-                      <grid row="5" column="6" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="5" column="8" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                   </hspacer>
                   <hspacer id="3a4ee">
@@ -808,14 +808,14 @@
                   <grid id="574c7" binding="applyJobPanel" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <grid row="7" column="3" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                      <grid row="7" column="3" row-span="1" col-span="5" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                         <minimum-size width="-1" height="150"/>
                         <preferred-size width="-1" height="150"/>
                       </grid>
                     </constraints>
                     <properties>
                       <enabled value="false"/>
-                      <visible value="false"/>
+                      <visible value="true"/>
                     </properties>
                     <border type="none"/>
                     <children>
@@ -875,12 +875,14 @@
                       <grid row="8" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
+                      <enabled value="false"/>
                       <text value="Apply"/>
+                      <visible value="true"/>
                     </properties>
                   </component>
                   <vspacer id="7f49a">
                     <constraints>
-                      <grid row="9" column="3" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <grid row="9" column="3" row-span="1" col-span="5" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                     </constraints>
                   </vspacer>
                   <vspacer id="f177e">
@@ -888,14 +890,34 @@
                       <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                     </constraints>
                   </vspacer>
-                  <component id="e7a8b" class="javax.swing.JButton" binding="jobViewCancelButton">
+                  <component id="2c4c0" class="javax.swing.JButton" binding="jobViewDeleteJobButton">
+                    <constraints>
+                      <grid row="8" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <enabled value="false"/>
+                      <text value="Delete Job Post"/>
+                      <visible value="true"/>
+                    </properties>
+                  </component>
+                  <component id="51046" class="javax.swing.JButton" binding="jobViewDeleteJobApplButton">
                     <constraints>
                       <grid row="8" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <enabled value="false"/>
+                      <text value="Delete Application"/>
+                      <visible value="true"/>
+                    </properties>
+                  </component>
+                  <component id="e7a8b" class="javax.swing.JButton" binding="jobViewCancelButton">
+                    <constraints>
+                      <grid row="8" column="6" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <enabled value="false"/>
                       <text value="Cancel"/>
-                      <visible value="false"/>
+                      <visible value="true"/>
                     </properties>
                   </component>
                 </children>
