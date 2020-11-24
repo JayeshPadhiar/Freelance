@@ -91,16 +91,13 @@ public class Utility {
         return true;
     }
 
-    public boolean jobApplyValidate(JTextField jobTitle, JTextField jobDue, JTextField jobCost){
-        if (jobTitle.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Enter Job Title");
+    public boolean jobApplyValidate(JTextArea jobAppl, JTextField jobApplCost){
+        if (jobAppl.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Enter Job Application");
             return false;
         }
-        if (jobDue.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Enter Due Date");
-            return false;
-        }
-        if (jobCost.getText().equals("")){
+
+        if (jobApplCost.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Enter Preferred Cost");
             return false;
         }

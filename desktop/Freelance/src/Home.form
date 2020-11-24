@@ -815,7 +815,7 @@
                     </constraints>
                     <properties>
                       <enabled value="false"/>
-                      <visible value="true"/>
+                      <visible value="false"/>
                     </properties>
                     <border type="none"/>
                     <children>

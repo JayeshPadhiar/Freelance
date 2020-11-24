@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class Home extends JFrame {
 
     private String username;
-    private String currJobId;
+    private int currJobId;
 
     private Connection homeConn;
 
@@ -124,7 +124,7 @@ public class Home extends JFrame {
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                jobViewFunction(2);
+                jobViewFunction(7);
             }
         });
 
@@ -186,41 +186,35 @@ public class Home extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
 
                 if(applyJobPanel.isEnabled() && jobViewCancelButton.isEnabled()){
-
-                    //utility.clearPanel(applyJobPanel);
-
                     System.out.println("Is Enabled !");
 
-                    /*utility.checkDatabase();
-                    try {
-                        //Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
-                        PreparedStatement applyJob = homeConn.prepareStatement(
-                                "INSERT INTO jobs (jobtitle, author, jobdesc, jobdue, jobcost) VALUES (?, ? ,?, ?, ?);"
-                        );
-
-                        applyJob.setString(1, applyapplication.getText());
-                        applyJob.setString(2, applycost.getText());
-                        applyJob.executeUpdate();
-
-                        JOptionPane.showMessageDialog(null, "Job Posted!");
-
-                        utility.clearPanel(addJobPanel);
-
-                        //freeConn.close();
-                    }
-                    catch (SQLException throwables) {
-                        JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
+                    if(utility.jobApplyValidate(applyapplication,applycost)){
                         utility.checkDatabase();
-                        throwables.printStackTrace();
-                    }*/
+                        try {
+                            PreparedStatement applyJob = homeConn.prepareStatement(
+                                    "UPDATE jobs SET applied = JSON_ARRAY_APPEND(COALESCE(applied, '[]'), '$', JSON_OBJECT('uname', ?, 'application', ?, 'cost', ?)) WHERE jobid=?;"
+                            );
+                            applyJob.setString(1, username);
+                            applyJob.setString(2, applyapplication.getText());
+                            applyJob.setString(3, applycost.getText());
+                            applyJob.setInt(4, currJobId);
+                            applyJob.executeUpdate();
 
-
-                    applyJobPanel.setVisible(false);
-
-                    applyJobPanel.setEnabled(false);
-                    jobViewCancelButton.setEnabled(false);
-
-                    jobViewWindow.revalidate();
+                            JOptionPane.showMessageDialog(null, "Job Applied!");
+                            utility.clearPanel(applyJobPanel);
+                            applyJobPanel.revalidate();
+                            jobViewFunction(currJobId);
+                        }
+                        catch (SQLException throwables) {
+                            JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
+                            utility.checkDatabase();
+                            throwables.printStackTrace();
+                        }
+                        applyJobPanel.setVisible(false);
+                        applyJobPanel.setEnabled(false);
+                        jobViewCancelButton.setEnabled(false);
+                        jobViewWindow.revalidate();
+                    }
 
                 }else{
                     applyJobPanel.setEnabled(true);
@@ -242,12 +236,11 @@ public class Home extends JFrame {
                     PreparedStatement deleteJob = homeConn.prepareStatement(
                             "DELETE FROM jobs WHERE jobid = ?;"
                     );
-                    deleteJob.setString(1, currJobId);
+                    deleteJob.setInt(1, currJobId);
                     deleteJob.execute();
 
                     JOptionPane.showMessageDialog(null, "Job Post Deleted Successfully");
-                    currJobId = null;
-
+                    currJobId = -1;
                     homeFunction();
 
                 } catch (SQLException throwables) {
@@ -266,6 +259,28 @@ public class Home extends JFrame {
                 jobViewCancelButton.setEnabled(false);
 
                 jobViewWindow.revalidate();
+            }
+        });
+        jobViewDeleteJobApplButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    PreparedStatement deleteJobAppl = homeConn.prepareStatement(
+                            "UPDATE jobs SET applied=JSON_REMOVE(applied, SUBSTR(JSON_UNQUOTE(JSON_SEARCH(applied, 'one', ?)), 1, LOCATE('.', JSON_UNQUOTE(JSON_SEARCH(applied, 'one', ?)))-1)) WHERE jobid=?;"
+                    );
+                    deleteJobAppl.setString(1, username);
+                    deleteJobAppl.setString(2, username);
+                    deleteJobAppl.setInt(3, currJobId);
+                    deleteJobAppl.executeUpdate();
+
+                    JOptionPane.showMessageDialog(null, "Job Application Deleted Successfully");
+
+                    jobViewFunction(currJobId);
+
+                } catch (SQLException throwables) {
+                    JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
+                    throwables.printStackTrace();
+                }
             }
         });
     }
@@ -372,7 +387,7 @@ public class Home extends JFrame {
             StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
 
             if (jobCreds.next()){
-                currJobId = jobCreds.getString("jobid");
+                currJobId = jobCreds.getInt("jobid");
                 jobviewtitle.setText(jobCreds.getString("jobtitle"));
                 jobviewauthor.setText("By : @" + jobCreds.getString("author"));
                 jobviewdesc.setParagraphAttributes(center, false);
