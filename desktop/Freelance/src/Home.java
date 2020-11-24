@@ -1,5 +1,3 @@
-import com.mysql.cj.xdevapi.JsonArray;
-
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -24,7 +22,7 @@ public class Home extends JFrame {
 
     private JPanel homePanel;
     private JPanel profileWindow;
-    private JPanel jobListWindow;
+    private JPanel homeWindow;
     private JPanel addJobWindow;
     private JPanel jobViewWindow;
 
@@ -76,6 +74,7 @@ public class Home extends JFrame {
 
     private JTextArea applyapplication;
     private JTextField applycost;
+    private JButton logoutButton;
 
     public Home(String user){
         this.username = user;
@@ -125,6 +124,19 @@ public class Home extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 jobViewFunction(7);
+            }
+        });
+
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                int confLogout = JOptionPane.showConfirmDialog(null,"Logout ?", "Logout Confirmation",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if(confLogout == JOptionPane.YES_OPTION){
+                    dispose();
+                    new Login();
+                }
             }
         });
 
@@ -317,6 +329,7 @@ public class Home extends JFrame {
     }
 
     private void profilePanelFunction(String username){
+
         try {
             PreparedStatement profileCredQuery = homeConn.prepareStatement("SELECT fname, lname, uname, bio, email, phone FROM users WHERE uname=?");
             profileCredQuery.setString(1, username);
@@ -364,14 +377,14 @@ public class Home extends JFrame {
         profileWindow.revalidate();
 
         profileWindow.setVisible(true);
-        jobListWindow.setVisible(false);
+        homeWindow.setVisible(false);
         jobViewWindow.setVisible(false);
         addJobWindow.setVisible(false);
     }
 
     private void homeFunction(){
         profileWindow.setVisible(false);
-        jobListWindow.setVisible(true);
+        homeWindow.setVisible(true);
         jobViewWindow.setVisible(false);
         addJobWindow.setVisible(false);
     }
@@ -438,6 +451,7 @@ public class Home extends JFrame {
             }
             else {
                 JOptionPane.showMessageDialog(null,"Job not found.", "Error", JOptionPane.ERROR_MESSAGE);
+                profilePanelFunction(username);
             }
         }
         catch (SQLException throwables) {
@@ -459,14 +473,14 @@ public class Home extends JFrame {
         jobViewWindow.revalidate();
 
         profileWindow.setVisible(false);
-        jobListWindow.setVisible(false);
+        homeWindow.setVisible(false);
         jobViewWindow.setVisible(true);
         addJobWindow.setVisible(false);
     }
 
     private void addJobFunction(){
         profileWindow.setVisible(false);
-        jobListWindow.setVisible(false);
+        homeWindow.setVisible(false);
         addJobWindow.setVisible(true);
         jobViewWindow.setVisible(false);
     }
