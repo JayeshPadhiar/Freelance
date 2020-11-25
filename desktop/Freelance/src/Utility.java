@@ -168,7 +168,7 @@ public class Utility {
             System.out.println("Tables Created");
             freeConn.close();
 
-            JOptionPane.showMessageDialog(null, "Database Initialized Please Try Again");
+            JOptionPane.showMessageDialog(null, "Database Initialized");
 
         } catch (SQLException | ClassNotFoundException mySqlEx) {
             JOptionPane.showMessageDialog(null, mySqlEx.getMessage());

@@ -747,224 +747,7 @@
                   </grid>
                 </children>
               </grid>
-              <grid id="960b7" binding="jobViewWindow" layout-manager="GridLayoutManager" row-count="10" column-count="10" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="10" bottom="10" right="10"/>
-                <constraints>
-                  <card name="Card4"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <vspacer id="3e1a">
-                    <constraints>
-                      <grid row="0" column="3" row-span="1" col-span="5" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </vspacer>
-                  <component id="a5ac4" class="javax.swing.JLabel" binding="jobviewtitle">
-                    <constraints>
-                      <grid row="1" column="3" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="Ubuntu" size="36" style="0"/>
-                      <text value="Job Title"/>
-                    </properties>
-                  </component>
-                  <component id="50cd1" class="javax.swing.JLabel" binding="jobviewauthor">
-                    <constraints>
-                      <grid row="2" column="3" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="Ubuntu" size="26" style="0"/>
-                      <text value="@author"/>
-                    </properties>
-                  </component>
-                  <scrollpane id="1ebef">
-                    <constraints>
-                      <grid row="4" column="3" row-span="1" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                        <minimum-size width="-1" height="150"/>
-                        <preferred-size width="-1" height="150"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <horizontalScrollBarPolicy value="31"/>
-                      <inheritsPopupMenu value="false"/>
-                    </properties>
-                    <border type="none"/>
-                    <children>
-                      <component id="f6976" class="javax.swing.JTextPane" binding="jobviewdesc">
-                        <constraints/>
-                        <properties>
-                          <editable value="false"/>
-                        </properties>
-                      </component>
-                    </children>
-                  </scrollpane>
-                  <component id="3ac09" class="javax.swing.JLabel" binding="jobviewdue">
-                    <constraints>
-                      <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="Ubuntu" size="20" style="0"/>
-                      <text value="2020-12-1"/>
-                    </properties>
-                  </component>
-                  <vspacer id="4175d">
-                    <constraints>
-                      <grid row="6" column="3" row-span="1" col-span="5" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </vspacer>
-                  <hspacer id="24acd">
-                    <constraints>
-                      <grid row="4" column="9" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                  <hspacer id="a69d3">
-                    <constraints>
-                      <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                  <component id="f2012" class="javax.swing.JLabel" binding="jobviewcost">
-                    <constraints>
-                      <grid row="5" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="Ubuntu" size="20" style="0"/>
-                      <text value="$200"/>
-                    </properties>
-                  </component>
-                  <hspacer id="5d0fd">
-                    <constraints>
-                      <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                  <hspacer id="4ec9">
-                    <constraints>
-                      <grid row="5" column="8" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                  <hspacer id="3a4ee">
-                    <constraints>
-                      <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                  <grid id="574c7" binding="applyJobPanel" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
-                    <constraints>
-                      <grid row="7" column="3" row-span="1" col-span="5" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                        <minimum-size width="-1" height="150"/>
-                        <preferred-size width="-1" height="150"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <enabled value="false"/>
-                      <visible value="false"/>
-                    </properties>
-                    <border type="none"/>
-                    <children>
-                      <component id="8642f" class="javax.swing.JLabel">
-                        <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <text value="Application"/>
-                        </properties>
-                      </component>
-                      <vspacer id="6bb5a">
-                        <constraints>
-                          <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                      </vspacer>
-                      <scrollpane id="d045d">
-                        <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties/>
-                        <border type="none"/>
-                        <children>
-                          <component id="be506" class="javax.swing.JTextArea" binding="applyapplication">
-                            <constraints/>
-                            <properties>
-                              <rows value="6"/>
-                            </properties>
-                          </component>
-                        </children>
-                      </scrollpane>
-                      <component id="215d6" class="javax.swing.JLabel">
-                        <constraints>
-                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <text value="Preferred Cost : "/>
-                        </properties>
-                      </component>
-                      <vspacer id="abf70">
-                        <constraints>
-                          <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                      </vspacer>
-                      <component id="a4093" class="javax.swing.JTextField" binding="applycost">
-                        <constraints>
-                          <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                            <preferred-size width="150" height="-1"/>
-                          </grid>
-                        </constraints>
-                        <properties/>
-                      </component>
-                    </children>
-                  </grid>
-                  <component id="54cf3" class="javax.swing.JButton" binding="jobViewApplyButton">
-                    <constraints>
-                      <grid row="8" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <enabled value="false"/>
-                      <text value="Apply"/>
-                      <visible value="true"/>
-                    </properties>
-                  </component>
-                  <vspacer id="7f49a">
-                    <constraints>
-                      <grid row="9" column="3" row-span="1" col-span="5" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </vspacer>
-                  <vspacer id="f177e">
-                    <constraints>
-                      <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </vspacer>
-                  <component id="2c4c0" class="javax.swing.JButton" binding="jobViewDeleteJobButton">
-                    <constraints>
-                      <grid row="8" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <enabled value="false"/>
-                      <text value="Delete Job Post"/>
-                      <visible value="true"/>
-                    </properties>
-                  </component>
-                  <component id="51046" class="javax.swing.JButton" binding="jobViewDeleteJobApplButton">
-                    <constraints>
-                      <grid row="8" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <enabled value="false"/>
-                      <text value="Delete Application"/>
-                      <visible value="true"/>
-                    </properties>
-                  </component>
-                  <component id="e7a8b" class="javax.swing.JButton" binding="jobViewCancelButton">
-                    <constraints>
-                      <grid row="8" column="6" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <enabled value="false"/>
-                      <text value="Cancel"/>
-                      <visible value="true"/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
-              <grid id="137df" binding="applViewWindow" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="137df" binding="jobViewWindow" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <card name="Card5"/>
@@ -978,7 +761,251 @@
                     </constraints>
                     <properties/>
                     <border type="none"/>
-                    <children/>
+                    <children>
+                      <grid id="960b7" binding="jobViewPanel" layout-manager="GridLayoutManager" row-count="12" column-count="10" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="10" bottom="10" right="10"/>
+                        <constraints/>
+                        <properties/>
+                        <border type="none"/>
+                        <children>
+                          <vspacer id="3e1a">
+                            <constraints>
+                              <grid row="0" column="3" row-span="1" col-span="5" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                          </vspacer>
+                          <component id="a5ac4" class="javax.swing.JLabel" binding="jobviewtitle">
+                            <constraints>
+                              <grid row="1" column="3" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <font name="Ubuntu" size="36" style="0"/>
+                              <text value="Job Title"/>
+                            </properties>
+                          </component>
+                          <component id="50cd1" class="javax.swing.JLabel" binding="jobviewauthor">
+                            <constraints>
+                              <grid row="2" column="3" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <font name="Ubuntu" size="26" style="0"/>
+                              <text value="@author"/>
+                            </properties>
+                          </component>
+                          <scrollpane id="1ebef">
+                            <constraints>
+                              <grid row="4" column="3" row-span="1" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                <minimum-size width="-1" height="150"/>
+                                <preferred-size width="-1" height="150"/>
+                              </grid>
+                            </constraints>
+                            <properties>
+                              <horizontalScrollBarPolicy value="31"/>
+                              <inheritsPopupMenu value="false"/>
+                            </properties>
+                            <border type="none" title="Description"/>
+                            <children>
+                              <component id="f6976" class="javax.swing.JTextPane" binding="jobviewdesc">
+                                <constraints/>
+                                <properties>
+                                  <editable value="false"/>
+                                </properties>
+                              </component>
+                            </children>
+                          </scrollpane>
+                          <component id="3ac09" class="javax.swing.JLabel" binding="jobviewdue">
+                            <constraints>
+                              <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <font name="Ubuntu" size="20" style="0"/>
+                              <text value="2020-12-1"/>
+                            </properties>
+                          </component>
+                          <vspacer id="4175d">
+                            <constraints>
+                              <grid row="6" column="3" row-span="1" col-span="5" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                          </vspacer>
+                          <hspacer id="24acd">
+                            <constraints>
+                              <grid row="4" column="9" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                          </hspacer>
+                          <hspacer id="a69d3">
+                            <constraints>
+                              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                          </hspacer>
+                          <component id="f2012" class="javax.swing.JLabel" binding="jobviewcost">
+                            <constraints>
+                              <grid row="5" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <font name="Ubuntu" size="20" style="0"/>
+                              <text value="$200"/>
+                            </properties>
+                          </component>
+                          <hspacer id="5d0fd">
+                            <constraints>
+                              <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                          </hspacer>
+                          <hspacer id="4ec9">
+                            <constraints>
+                              <grid row="5" column="8" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                          </hspacer>
+                          <hspacer id="3a4ee">
+                            <constraints>
+                              <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                          </hspacer>
+                          <grid id="574c7" binding="applyJobPanel" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="0" left="0" bottom="0" right="0"/>
+                            <constraints>
+                              <grid row="9" column="3" row-span="1" col-span="5" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                <minimum-size width="-1" height="150"/>
+                                <preferred-size width="-1" height="150"/>
+                              </grid>
+                            </constraints>
+                            <properties>
+                              <enabled value="false"/>
+                              <visible value="false"/>
+                            </properties>
+                            <border type="none"/>
+                            <children>
+                              <component id="8642f" class="javax.swing.JLabel">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="Application"/>
+                                </properties>
+                              </component>
+                              <vspacer id="6bb5a">
+                                <constraints>
+                                  <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                              </vspacer>
+                              <scrollpane id="d045d">
+                                <constraints>
+                                  <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                                <border type="none"/>
+                                <children>
+                                  <component id="be506" class="javax.swing.JTextArea" binding="applyapplication">
+                                    <constraints/>
+                                    <properties>
+                                      <rows value="6"/>
+                                    </properties>
+                                  </component>
+                                </children>
+                              </scrollpane>
+                              <component id="215d6" class="javax.swing.JLabel">
+                                <constraints>
+                                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="Preferred Cost : "/>
+                                </properties>
+                              </component>
+                              <vspacer id="abf70">
+                                <constraints>
+                                  <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                              </vspacer>
+                              <component id="a4093" class="javax.swing.JTextField" binding="applycost">
+                                <constraints>
+                                  <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                    <preferred-size width="150" height="-1"/>
+                                  </grid>
+                                </constraints>
+                                <properties/>
+                              </component>
+                            </children>
+                          </grid>
+                          <component id="54cf3" class="javax.swing.JButton" binding="jobViewApplyButton">
+                            <constraints>
+                              <grid row="10" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <enabled value="false"/>
+                              <text value="Apply"/>
+                              <visible value="true"/>
+                            </properties>
+                          </component>
+                          <vspacer id="7f49a">
+                            <constraints>
+                              <grid row="11" column="3" row-span="1" col-span="5" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                          </vspacer>
+                          <vspacer id="f177e">
+                            <constraints>
+                              <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                          </vspacer>
+                          <component id="2c4c0" class="javax.swing.JButton" binding="jobViewDeleteJobButton">
+                            <constraints>
+                              <grid row="10" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <enabled value="false"/>
+                              <text value="Delete Job Post"/>
+                              <visible value="true"/>
+                            </properties>
+                          </component>
+                          <component id="51046" class="javax.swing.JButton" binding="jobViewDeleteJobApplButton">
+                            <constraints>
+                              <grid row="10" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <enabled value="false"/>
+                              <text value="Delete Application"/>
+                              <visible value="true"/>
+                            </properties>
+                          </component>
+                          <component id="e7a8b" class="javax.swing.JButton" binding="jobViewCancelButton">
+                            <constraints>
+                              <grid row="10" column="6" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <enabled value="false"/>
+                              <text value="Cancel"/>
+                              <visible value="true"/>
+                            </properties>
+                          </component>
+                          <scrollpane id="df9ad">
+                            <constraints>
+                              <grid row="7" column="3" row-span="1" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                <minimum-size width="-1" height="50"/>
+                                <preferred-size width="-1" height="200"/>
+                              </grid>
+                            </constraints>
+                            <properties/>
+                            <border type="none" title="Applications"/>
+                            <children>
+                              <component id="926dc" class="javax.swing.JTable" binding="jobViewApplicationTable">
+                                <constraints/>
+                                <properties>
+                                  <autoCreateRowSorter value="true"/>
+                                  <intercellSpacing width="1" height="4"/>
+                                  <opaque value="false"/>
+                                  <rowHeight value="40"/>
+                                  <showHorizontalLines value="false"/>
+                                  <showVerticalLines value="false"/>
+                                </properties>
+                              </component>
+                            </children>
+                          </scrollpane>
+                          <vspacer id="1f6ab">
+                            <constraints>
+                              <grid row="8" column="4" row-span="1" col-span="2" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                          </vspacer>
+                        </children>
+                      </grid>
+                    </children>
                   </scrollpane>
                 </children>
               </grid>

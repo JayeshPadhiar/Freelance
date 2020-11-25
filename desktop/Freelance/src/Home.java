@@ -26,7 +26,6 @@ public class Home extends JFrame {
     private JPanel homeWindow;
     private JPanel addJobWindow;
     private JPanel jobViewWindow;
-    private JPanel applViewWindow;
 
     private JButton profileButton;
     private JButton homeButton;
@@ -48,6 +47,7 @@ public class Home extends JFrame {
     private JTextArea editbio;
 
     private JPanel addJobPanel;
+    private JPanel jobViewPanel;
     private JPanel applyJobPanel;
     private JPanel userProfilePanel;
 
@@ -69,6 +69,7 @@ public class Home extends JFrame {
     private JTextPane jobviewdesc;
     private JLabel jobviewdue;
     private JLabel jobviewcost;
+    private JTable jobViewApplicationTable;
     private JButton jobViewApplyButton;
     private JButton jobViewCancelButton;
     private JButton jobViewDeleteJobButton;
@@ -208,7 +209,8 @@ public class Home extends JFrame {
                         utility.checkDatabase();
                         try {
                             PreparedStatement applyJob = homeConn.prepareStatement(
-                                    "UPDATE jobs SET applied = JSON_ARRAY_APPEND(COALESCE(applied, '[]'), '$', JSON_OBJECT('uname', ?, 'application', ?, 'cost', ?)) WHERE jobid=?;"
+                                    "UPDATE jobs SET applied = JSON_ARRAY_APPEND(" +
+                                            "COALESCE(applied, '[]'), '$', JSON_OBJECT('uname', ?, 'application', ?, 'cost', ?)) WHERE jobid=?;"
                             );
                             applyJob.setString(1, username);
                             applyJob.setString(2, applyapplication.getText());
@@ -284,7 +286,8 @@ public class Home extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     PreparedStatement deleteJobAppl = homeConn.prepareStatement(
-                            "UPDATE jobs SET applied=JSON_REMOVE(applied, SUBSTR(JSON_UNQUOTE(JSON_SEARCH(applied, 'one', ?)), 1, LOCATE('.', JSON_UNQUOTE(JSON_SEARCH(applied, 'one', ?)))-1)) WHERE jobid=?;"
+                            "UPDATE jobs SET applied=JSON_REMOVE(applied, SUBSTR(JSON_UNQUOTE(" +
+                                    "JSON_SEARCH(applied, 'one', ?)), 1, LOCATE('.', JSON_UNQUOTE(JSON_SEARCH(applied, 'one', ?)))-1)) WHERE jobid=?;"
                     );
                     deleteJobAppl.setString(1, username);
                     deleteJobAppl.setString(2, username);
@@ -310,6 +313,19 @@ public class Home extends JFrame {
                     int row = homeJobTable.getSelectedRow();
                     int column = homeJobTable.getSelectedColumn();
                     jobViewFunction((Integer) homeJobTable.getValueAt(row, 0));
+                    //JOptionPane.showMessageDialog(null, homeJobTable.getValueAt(row, 0));
+                }
+            }
+        });
+
+        jobViewApplicationTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+                if (mouseEvent.getClickCount() == 2){
+                    int row = jobViewApplicationTable.getSelectedRow();
+                    int column = jobViewApplicationTable.getSelectedColumn();
+                    profilePanelFunction((String) jobViewApplicationTable.getValueAt(row, 0));
                     //JOptionPane.showMessageDialog(null, homeJobTable.getValueAt(row, 0));
                 }
             }
@@ -478,6 +494,66 @@ public class Home extends JFrame {
                 jobviewdue.setText("Due Date : " + jobCreds.getString("jobdue"));
                 jobviewcost.setText("Est. Cost : " + jobCreds.getString("jobcost"));
 
+
+
+
+
+
+
+                DefaultTableModel applTableModel = new DefaultTableModel(new String[]{"User" ,"Job Application", "Cost"}, 0){
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+
+                try {
+                    PreparedStatement getApplTable = homeConn.prepareStatement("SELECT applicants.* FROM jobs , JSON_TABLE(applied," +
+                            "'$[*]' COLUMNS(uname VARCHAR(64) PATH '$.uname',  application TEXT PATH '$.application', cost DECIMAL(8,2) PATH '$.cost' )) " +
+                            "applicants WHERE jobid=?;");
+                    getApplTable.setInt(1, currJobId);
+                    ResultSet applTable = getApplTable.executeQuery();
+
+                    while(applTable.next())
+                    {
+                        String uname = applTable.getString("uname");
+                        String application = applTable.getString("application");
+                        double cost = applTable.getDouble("cost");
+                        applTableModel.addRow(new Object[]{uname, application, cost});
+                    }
+
+                    jobViewApplicationTable.setModel(applTableModel);
+                    jobViewApplicationTable.setRowSelectionAllowed(true);
+                    jobViewApplicationTable.setColumnSelectionAllowed(false);
+                    jobViewApplicationTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                    utility.setCellsAlignment(jobViewApplicationTable, SwingConstants.CENTER);
+                    utility.setHeaderAlignment(jobViewApplicationTable, SwingConstants.CENTER);
+                    //TableColumnModel columnModel = jobViewApplicationTable.getColumnModel();
+                    //columnModel.getColumn(0).setMaxWidth(60);
+                    //columnModel.getColumn(1).setPreferredWidth((int)(homeWindow.getWidth()/2.5));
+                }
+                catch (SQLException throwables) {
+                    JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
+                    utility.checkDatabase();
+                    throwables.printStackTrace();
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 if(this.username.equals(jobCreds.getString("author"))){
                     System.out.println("Same same");
                     jobViewApplyButton.setEnabled(false);
@@ -488,7 +564,8 @@ public class Home extends JFrame {
                 else{
 
                     System.out.println("Different");
-                    PreparedStatement checkIfApplied = homeConn.prepareStatement("SELECT JSON_CONTAINS(applied, JSON_OBJECT('uname', ?), '$') as applied from jobs WHERE jobid=?;");
+                    PreparedStatement checkIfApplied = homeConn.prepareStatement("SELECT JSON_CONTAINS(applied, JSON_OBJECT('uname', ?), '$') as applied from jobs " +
+                            "WHERE jobid=?;");
                     checkIfApplied.setString(1, this.username);
                     checkIfApplied.setString(2, jobCreds.getString("jobid"));
                     ResultSet applied = checkIfApplied.executeQuery();
