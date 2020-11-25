@@ -13,6 +13,7 @@ public class Home extends JFrame {
 
     private String username;
     private int currJobId;
+    private String currJobAuthor;
 
     private Connection homeConn;
 
@@ -25,6 +26,7 @@ public class Home extends JFrame {
     private JPanel homeWindow;
     private JPanel addJobWindow;
     private JPanel jobViewWindow;
+    private JPanel applViewWindow;
 
     private JButton profileButton;
     private JButton homeButton;
@@ -97,6 +99,8 @@ public class Home extends JFrame {
             JOptionPane.showMessageDialog(null, e, "Error: ", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
+
+        homeFunction();
 
         profileButton.addActionListener(new ActionListener() {
             @Override
@@ -253,6 +257,7 @@ public class Home extends JFrame {
 
                     JOptionPane.showMessageDialog(null, "Job Post Deleted Successfully");
                     currJobId = -1;
+                    currJobAuthor = null;
                     homeFunction();
 
                 } catch (SQLException throwables) {
@@ -307,6 +312,14 @@ public class Home extends JFrame {
                     jobViewFunction((Integer) homeJobTable.getValueAt(row, 0));
                     //JOptionPane.showMessageDialog(null, homeJobTable.getValueAt(row, 0));
                 }
+            }
+        });
+
+        jobviewauthor.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+                profilePanelFunction(currJobAuthor);
             }
         });
     }
@@ -437,10 +450,6 @@ public class Home extends JFrame {
             TableColumnModel columnModel = homeJobTable.getColumnModel();
             columnModel.getColumn(0).setMaxWidth(60);
             columnModel.getColumn(1).setPreferredWidth((int)(homeWindow.getWidth()/2.5));
-
-
-
-
         }
         catch (SQLException throwables) {
             JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
@@ -461,8 +470,9 @@ public class Home extends JFrame {
 
             if (jobCreds.next()){
                 currJobId = jobCreds.getInt("jobid");
+                currJobAuthor = jobCreds.getString("author");
                 jobviewtitle.setText(jobCreds.getString("jobtitle"));
-                jobviewauthor.setText("By : @" + jobCreds.getString("author"));
+                jobviewauthor.setText("<HTML><a href=''>" + "@" + jobCreds.getString("author") + "</a><HTML>");
                 jobviewdesc.setParagraphAttributes(center, false);
                 jobviewdesc.setText(jobCreds.getString("jobdesc"));
                 jobviewdue.setText("Due Date : " + jobCreds.getString("jobdue"));
