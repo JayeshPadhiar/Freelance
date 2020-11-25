@@ -1,4 +1,7 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.sql.*;
 import java.util.Arrays;
@@ -103,6 +106,27 @@ public class Utility {
         }
         return true;
     }
+
+    public void setCellsAlignment(JTable table, int alignment)
+    {
+        DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
+        cellRenderer.setHorizontalAlignment(alignment);
+
+        TableModel tableModel = table.getModel();
+
+        for (int columnIndex = 0; columnIndex < tableModel.getColumnCount(); columnIndex++)
+        {
+            table.getColumnModel().getColumn(columnIndex).setCellRenderer(cellRenderer);
+        }
+    }
+
+    public void setHeaderAlignment(JTable table, int alignment)
+    {
+        ((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer())
+                .setHorizontalAlignment(alignment);
+    }
+
+
 
     public void initDatabase(){
         try {

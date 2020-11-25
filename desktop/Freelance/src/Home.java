@@ -1,11 +1,11 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.sql.*;
 import java.util.Arrays;
 
@@ -31,7 +31,7 @@ public class Home extends JFrame {
     private JButton refreshButton;
     private JButton addJobButton;
 
-    private JTable table1;
+    private JTable homeJobTable;
 
     private JPanel editProfilePanel;
     private JTextField editfirstname;
@@ -76,6 +76,7 @@ public class Home extends JFrame {
     private JTextField applycost;
     private JButton logoutButton;
 
+
     public Home(String user){
         this.username = user;
         this.utility = new Utility();
@@ -107,7 +108,6 @@ public class Home extends JFrame {
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
                 homeFunction();
             }
         });
@@ -123,7 +123,7 @@ public class Home extends JFrame {
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                jobViewFunction(7);
+                jobViewFunction(8);
             }
         });
 
@@ -295,6 +295,12 @@ public class Home extends JFrame {
                 }
             }
         });
+        homeJobTable.addMouseListener(new MouseAdapter() {
+        });
+        homeJobTable.addComponentListener(new ComponentAdapter() {
+        });
+        homeJobTable.addMouseListener(new MouseAdapter() {
+        });
     }
 
     public void updateUserProfile(){
@@ -387,6 +393,51 @@ public class Home extends JFrame {
         homeWindow.setVisible(true);
         jobViewWindow.setVisible(false);
         addJobWindow.setVisible(false);
+
+        System.out.println(1);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+
+        DefaultTableModel jobsModel = new DefaultTableModel(new String[]{"Job", "Author", "Due", "Cost"}, 0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        try {
+            PreparedStatement getJobsTable = homeConn.prepareStatement("SELECT jobtitle, author, jobdue, jobcost FROM jobs;");
+            ResultSet jobsTable = getJobsTable.executeQuery();
+
+            while(jobsTable.next())
+            {
+                String title = jobsTable.getString("jobtitle");
+                String author = jobsTable.getString("author");
+                String due = jobsTable.getString("jobdue");
+                String cost = jobsTable.getString("jobcost");
+                jobsModel.addRow(new Object[]{title, author, due, cost});
+            }
+            homeJobTable.setModel(jobsModel);
+            //homeJobTable.setRowSelectionAllowed(false);
+            homeJobTable.setColumnSelectionAllowed(false);
+            utility.setCellsAlignment(homeJobTable, SwingConstants.CENTER);
+            utility.setHeaderAlignment(homeJobTable, SwingConstants.CENTER);
+
+            TableColumnModel columnModel = homeJobTable.getColumnModel();
+            columnModel.getColumn(0).setPreferredWidth((int)(homeWindow.getWidth()/2.5));
+
+
+
+
+
+
+        }
+        catch (SQLException throwables) {
+            JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
+            utility.checkDatabase();
+            throwables.printStackTrace();
+        }
     }
 
     private void jobViewFunction(int jobID){
@@ -418,10 +469,6 @@ public class Home extends JFrame {
                 else{
 
                     System.out.println("Different");
-                    /*jobViewApplyButton.setEnabled(true);
-                    jobViewDeleteJobButton.setEnabled(false);
-                    jobViewCancelButton.setEnabled(false);
-                    jobViewDeleteJobApplButton.setEnabled(false);*/
                     PreparedStatement checkIfApplied = homeConn.prepareStatement("SELECT JSON_CONTAINS(applied, JSON_OBJECT('uname', ?), '$') as applied from jobs WHERE jobid=?;");
                     checkIfApplied.setString(1, this.username);
                     checkIfApplied.setString(2, jobCreds.getString("jobid"));
@@ -446,7 +493,6 @@ public class Home extends JFrame {
                     else {
                         System.out.println("no result");
                     }
-
                 }
             }
             else {
@@ -459,16 +505,6 @@ public class Home extends JFrame {
             this.utility.checkDatabase();
             throwables.printStackTrace();
         }
-
-        /*if(username.equals(this.username)){
-            editProfilePanel.setEnabled(true);
-            editProfilePanel.setVisible(true);
-        }
-        else {
-            System.out.println(this.username + username);
-            editProfilePanel.setEnabled(false);
-            editProfilePanel.setVisible(false);
-        }*/
 
         jobViewWindow.revalidate();
 
