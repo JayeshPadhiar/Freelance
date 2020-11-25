@@ -173,7 +173,7 @@
                           <cellSelectionEnabled value="false"/>
                           <columnSelectionAllowed value="false"/>
                           <enabled value="true"/>
-                          <intercellSpacing width="5" height="10"/>
+                          <intercellSpacing width="0" height="10"/>
                           <minimumSize width="30" height="100"/>
                           <rowHeight value="50"/>
                           <rowSelectionAllowed value="true"/>

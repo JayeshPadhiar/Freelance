@@ -273,6 +273,7 @@ public class Home extends JFrame {
                 jobViewWindow.revalidate();
             }
         });
+
         jobViewDeleteJobApplButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -295,11 +296,18 @@ public class Home extends JFrame {
                 }
             }
         });
+
         homeJobTable.addMouseListener(new MouseAdapter() {
-        });
-        homeJobTable.addComponentListener(new ComponentAdapter() {
-        });
-        homeJobTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+                if (mouseEvent.getClickCount() == 2){
+                    int row = homeJobTable.getSelectedRow();
+                    int column = homeJobTable.getSelectedColumn();
+                    jobViewFunction((Integer) homeJobTable.getValueAt(row, 0));
+                    //JOptionPane.showMessageDialog(null, homeJobTable.getValueAt(row, 0));
+                }
+            }
         });
     }
 
@@ -399,7 +407,7 @@ public class Home extends JFrame {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
 
-        DefaultTableModel jobsModel = new DefaultTableModel(new String[]{"Job", "Author", "Due", "Cost"}, 0){
+        DefaultTableModel jobsModel = new DefaultTableModel(new String[]{"ID" ,"Job", "Author", "Due", "Cost"}, 0){
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -407,27 +415,28 @@ public class Home extends JFrame {
         };
 
         try {
-            PreparedStatement getJobsTable = homeConn.prepareStatement("SELECT jobtitle, author, jobdue, jobcost FROM jobs;");
+            PreparedStatement getJobsTable = homeConn.prepareStatement("SELECT jobid, jobtitle, author, jobdue, jobcost FROM jobs;");
             ResultSet jobsTable = getJobsTable.executeQuery();
 
             while(jobsTable.next())
             {
+                int id = jobsTable.getInt("jobid");
                 String title = jobsTable.getString("jobtitle");
                 String author = jobsTable.getString("author");
                 String due = jobsTable.getString("jobdue");
                 String cost = jobsTable.getString("jobcost");
-                jobsModel.addRow(new Object[]{title, author, due, cost});
+                jobsModel.addRow(new Object[]{id, title, author, due, cost});
             }
             homeJobTable.setModel(jobsModel);
-            //homeJobTable.setRowSelectionAllowed(false);
+            homeJobTable.setRowSelectionAllowed(true);
             homeJobTable.setColumnSelectionAllowed(false);
+            homeJobTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             utility.setCellsAlignment(homeJobTable, SwingConstants.CENTER);
             utility.setHeaderAlignment(homeJobTable, SwingConstants.CENTER);
 
             TableColumnModel columnModel = homeJobTable.getColumnModel();
-            columnModel.getColumn(0).setPreferredWidth((int)(homeWindow.getWidth()/2.5));
-
-
+            columnModel.getColumn(0).setMaxWidth(60);
+            columnModel.getColumn(1).setPreferredWidth((int)(homeWindow.getWidth()/2.5));
 
 
 
