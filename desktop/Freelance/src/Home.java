@@ -57,6 +57,7 @@ public class Home extends JFrame {
     private JTextPane userprofilebio;
     private JLabel userProfileEmail;
     private JLabel userProfilePhone;
+    private JTable userProfileJobsTable;
 
     private JTextField newJobTitle;
     private JTextArea newJobDesc;
@@ -93,8 +94,9 @@ public class Home extends JFrame {
         setVisible(true);
 
         try {
-            this.homeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
             Class.forName("com.mysql.cj.jdbc.Driver");
+            //this.homeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
+            this.homeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
 
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, e, "Error: ", JOptionPane.ERROR_MESSAGE);
@@ -171,7 +173,6 @@ public class Home extends JFrame {
                 if (utility.jobPostValidate(newJobTitle, newJobDue, newJobCost)){
                     utility.checkDatabase();
                     try {
-                        //Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
                         PreparedStatement insertJobPost = homeConn.prepareStatement(
                                 "INSERT INTO jobs (jobtitle, author, jobdesc, jobdue, jobcost) VALUES (?, ? ,?, ?, ?);"
                         );
@@ -208,6 +209,8 @@ public class Home extends JFrame {
                     if(utility.jobApplyValidate(applyapplication,applycost)){
                         utility.checkDatabase();
                         try {
+
+                            /*
                             PreparedStatement applyJob = homeConn.prepareStatement(
                                     "UPDATE jobs SET applied = JSON_ARRAY_APPEND(" +
                                             "COALESCE(applied, '[]'), '$', JSON_OBJECT('uname', ?, 'application', ?, 'cost', ?)) WHERE jobid=?;"
@@ -217,9 +220,19 @@ public class Home extends JFrame {
                             applyJob.setString(3, applycost.getText());
                             applyJob.setInt(4, currJobId);
                             applyJob.executeUpdate();
+                            */
+
+                            PreparedStatement applyJob = homeConn.prepareStatement("INSERT INTO applications(jobid, applicant, application, cost) " +
+                                    "VALUES (?, ?, ?, ?)");
+                            applyJob.setInt(1, currJobId);
+                            applyJob.setString(2, username);
+                            applyJob.setString(3, applyapplication.getText());
+                            applyJob.setString(4, applycost.getText());
+                            applyJob.executeUpdate();
 
                             JOptionPane.showMessageDialog(null, "Job Applied!");
                             utility.clearPanel(applyJobPanel);
+
                             applyJobPanel.revalidate();
                             jobViewFunction(currJobId);
                         }
@@ -235,8 +248,13 @@ public class Home extends JFrame {
                     }
 
                 }else{
+                    utility.clearPanel(applyJobPanel);
+
                     applyJobPanel.setEnabled(true);
                     applyJobPanel.setVisible(true);
+
+                    applyapplication.setEditable(true);
+                    applycost.setEditable(true);
 
                     jobViewCancelButton.setEnabled(true);
                     jobViewCancelButton.setVisible(true);
@@ -285,6 +303,7 @@ public class Home extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
+                    /*
                     PreparedStatement deleteJobAppl = homeConn.prepareStatement(
                             "UPDATE jobs SET applied=JSON_REMOVE(applied, SUBSTR(JSON_UNQUOTE(" +
                                     "JSON_SEARCH(applied, 'one', ?)), 1, LOCATE('.', JSON_UNQUOTE(JSON_SEARCH(applied, 'one', ?)))-1)) WHERE jobid=?;"
@@ -292,6 +311,14 @@ public class Home extends JFrame {
                     deleteJobAppl.setString(1, username);
                     deleteJobAppl.setString(2, username);
                     deleteJobAppl.setInt(3, currJobId);
+                    deleteJobAppl.executeUpdate();
+                    */
+
+                    PreparedStatement deleteJobAppl = homeConn.prepareStatement(
+                            "DELETE FROM applications WHERE jobid=? AND applicant=?;"
+                    );
+                    deleteJobAppl.setInt(1, currJobId);
+                    deleteJobAppl.setString(2, username);
                     deleteJobAppl.executeUpdate();
 
                     JOptionPane.showMessageDialog(null, "Job Application Deleted Successfully");
@@ -318,6 +345,19 @@ public class Home extends JFrame {
             }
         });
 
+        userProfileJobsTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+                if (mouseEvent.getClickCount() == 2){
+                    int row = userProfileJobsTable.getSelectedRow();
+                    int column = userProfileJobsTable.getSelectedColumn();
+                    jobViewFunction((Integer) userProfileJobsTable.getValueAt(row, 0));
+                    //JOptionPane.showMessageDialog(null, homeJobTable.getValueAt(row, 0));
+                }
+            }
+        });
+
         jobViewApplicationTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
@@ -326,7 +366,32 @@ public class Home extends JFrame {
                     int row = jobViewApplicationTable.getSelectedRow();
                     int column = jobViewApplicationTable.getSelectedColumn();
                     profilePanelFunction((String) jobViewApplicationTable.getValueAt(row, 0));
+                    //viewApplication(jobViewApplicationTable.getValueAt(row, 0), jobViewApplicationTable.getValueAt(row, 1));
                     //JOptionPane.showMessageDialog(null, homeJobTable.getValueAt(row, 0));
+                }
+
+                if (mouseEvent.getClickCount() == 1){
+                    int row = jobViewApplicationTable.getSelectedRow();
+                    int column = jobViewApplicationTable.getSelectedColumn();
+                    //profilePanelFunction((String) jobViewApplicationTable.getValueAt(row, 0));
+                    //viewApplication(jobViewApplicationTable.getValueAt(row, 1), jobViewApplicationTable.getValueAt(row, 2));
+                    //JOptionPane.showMessageDialog(null, homeJobTable.getValueAt(row, 0));
+
+                    applyJobPanel.setVisible(true);
+                    applyJobPanel.setEnabled(false);
+                    applyapplication.setEditable(false);
+                    applycost.setEditable(false);
+
+
+
+                    SimpleAttributeSet center = new SimpleAttributeSet();
+                    StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+
+                    //applyapplication.setParagraphAttributes(center, false);
+                    applyapplication.setText((String) jobViewApplicationTable.getValueAt(row, 1));
+                    applycost.setText(String.valueOf(jobViewApplicationTable.getValueAt(row, 2)));
+
+                    jobViewWindow.revalidate();
                 }
             }
         });
@@ -339,6 +404,20 @@ public class Home extends JFrame {
             }
         });
     }
+
+    /*private void viewApplication(String application, double cost){
+        applyJobPanel.setVisible(true);
+        applyJobPanel.setEnabled(false);
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+
+        //applyapplication.setParagraphAttributes(center, false);
+        applyapplication.setText(application);
+        applycost.setText(String.valueOf(cost));
+
+        jobViewWindow.revalidate();
+
+    }*/
 
     public void updateUserProfile(){
         if (utility.profileValidate(editfirstname, edituname, editemail, editpass, editpassconf)){
@@ -395,6 +474,44 @@ public class Home extends JFrame {
                 editbio.setText(profileCredentials.getString("bio"));
                 editemail.setText(profileCredentials.getString("email"));
                 editphone.setText(profileCredentials.getString("phone"));
+
+                DefaultTableModel profileViewJobTableModel = new DefaultTableModel(new String[]{"ID" ,"Job Title", "Due", "Cost"}, 0){
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+
+                try {
+                    PreparedStatement getJobsTable = homeConn.prepareStatement("SELECT jobid, jobtitle, jobdue, jobcost FROM jobs WHERE author=?");
+                    getJobsTable.setString(1, username);
+                    ResultSet jobTable = getJobsTable.executeQuery();
+
+                    while(jobTable.next())
+                    {
+                        int id = jobTable.getInt("jobid");
+                        String title = jobTable.getString("jobtitle");
+                        String due = jobTable.getString("jobdue");
+                        double cost = jobTable.getDouble("jobcost");
+                        profileViewJobTableModel.addRow(new Object[]{id, title, due, cost});
+                    }
+
+                    userProfileJobsTable.setModel(profileViewJobTableModel);
+                    userProfileJobsTable.setRowSelectionAllowed(true);
+                    userProfileJobsTable.setColumnSelectionAllowed(false);
+                    userProfileJobsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                    utility.setCellsAlignment(userProfileJobsTable, SwingConstants.CENTER);
+                    utility.setHeaderAlignment(userProfileJobsTable, SwingConstants.CENTER);
+                    //TableColumnModel columnModel = jobViewApplicationTable.getColumnModel();
+                    //columnModel.getColumn(0).setMaxWidth(60);
+                    //columnModel.getColumn(1).setPreferredWidth((int)(homeWindow.getWidth()/2.5));
+                }
+                catch (SQLException throwables) {
+                    JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
+                    utility.checkDatabase();
+                    throwables.printStackTrace();
+                }
+
             }
             else {
                 JOptionPane.showMessageDialog(null,"Invalid User : "+username, "Error", JOptionPane.ERROR_MESSAGE);
@@ -477,13 +594,12 @@ public class Home extends JFrame {
     private void jobViewFunction(int jobID){
 
         try {
-            PreparedStatement jobViewQuery = homeConn.prepareStatement("SELECT jobid, jobtitle, author, jobdesc, jobdue, jobcost, applied FROM jobs WHERE jobid=?");
+            PreparedStatement jobViewQuery = homeConn.prepareStatement("SELECT jobid, jobtitle, author, jobdesc, jobdue, jobcost FROM jobs WHERE jobid=?");
             jobViewQuery.setInt(1, jobID);
             ResultSet jobCreds = jobViewQuery.executeQuery();
 
             SimpleAttributeSet center = new SimpleAttributeSet();
             StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-
             if (jobCreds.next()){
                 currJobId = jobCreds.getInt("jobid");
                 currJobAuthor = jobCreds.getString("author");
@@ -494,12 +610,6 @@ public class Home extends JFrame {
                 jobviewdue.setText("Due Date : " + jobCreds.getString("jobdue"));
                 jobviewcost.setText("Est. Cost : " + jobCreds.getString("jobcost"));
 
-
-
-
-
-
-
                 DefaultTableModel applTableModel = new DefaultTableModel(new String[]{"User" ,"Job Application", "Cost"}, 0){
                     @Override
                     public boolean isCellEditable(int row, int column) {
@@ -508,6 +618,7 @@ public class Home extends JFrame {
                 };
 
                 try {
+                    /*
                     PreparedStatement getApplTable = homeConn.prepareStatement("SELECT applicants.* FROM jobs , JSON_TABLE(applied," +
                             "'$[*]' COLUMNS(uname VARCHAR(64) PATH '$.uname',  application TEXT PATH '$.application', cost DECIMAL(8,2) PATH '$.cost' )) " +
                             "applicants WHERE jobid=?;");
@@ -517,6 +628,20 @@ public class Home extends JFrame {
                     while(applTable.next())
                     {
                         String uname = applTable.getString("uname");
+                        String application = applTable.getString("application");
+                        double cost = applTable.getDouble("cost");
+                        applTableModel.addRow(new Object[]{uname, application, cost});
+                    }
+
+                     */
+
+                    PreparedStatement getApplTable = homeConn.prepareStatement("SELECT * FROM applications WHERE jobid=?");
+                    getApplTable.setInt(1, currJobId);
+                    ResultSet applTable = getApplTable.executeQuery();
+
+                    while(applTable.next())
+                    {
+                        String uname = applTable.getString("applicant");
                         String application = applTable.getString("application");
                         double cost = applTable.getDouble("cost");
                         applTableModel.addRow(new Object[]{uname, application, cost});
@@ -538,22 +663,6 @@ public class Home extends JFrame {
                     throwables.printStackTrace();
                 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 if(this.username.equals(jobCreds.getString("author"))){
                     System.out.println("Same same");
                     jobViewApplyButton.setEnabled(false);
@@ -564,30 +673,34 @@ public class Home extends JFrame {
                 else{
 
                     System.out.println("Different");
+
+                    /*
                     PreparedStatement checkIfApplied = homeConn.prepareStatement("SELECT JSON_CONTAINS(applied, JSON_OBJECT('uname', ?), '$') as applied from jobs " +
                             "WHERE jobid=?;");
                     checkIfApplied.setString(1, this.username);
                     checkIfApplied.setString(2, jobCreds.getString("jobid"));
                     ResultSet applied = checkIfApplied.executeQuery();
+                    */
 
-                    if (applied.next()){
-                        if(applied.getInt("applied") == 0){
-                            System.out.println("Not applied");
-                            jobViewApplyButton.setEnabled(true);
-                            jobViewDeleteJobButton.setEnabled(false);
-                            jobViewDeleteJobApplButton.setEnabled(false);
-                            jobViewCancelButton.setEnabled(false);
-                        }
-                        else{
-                            System.out.println("Already Applied");
-                            jobViewApplyButton.setEnabled(false);
-                            jobViewDeleteJobButton.setEnabled(false);
-                            jobViewDeleteJobApplButton.setEnabled(true);
-                            jobViewCancelButton.setEnabled(false);
-                        }
+                    PreparedStatement checkIfApplied = homeConn.prepareStatement("SELECT * FROM applications WHERE applicant=? and jobid=?");
+                    checkIfApplied.setString(1, this.username);
+                    checkIfApplied.setString(2, jobCreds.getString("jobid"));
+                    ResultSet applied = checkIfApplied.executeQuery();
+
+                    if (!applied.next()){
+                        System.out.println("Not applied");
+                        jobViewApplyButton.setEnabled(true);
+                        jobViewDeleteJobButton.setEnabled(false);
+                        jobViewDeleteJobApplButton.setEnabled(false);
+                        jobViewCancelButton.setEnabled(false);
                     }
-                    else {
-                        System.out.println("no result");
+                    else{
+                        System.out.println("Already Applied");
+                        jobViewApplyButton.setEnabled(false);
+                        jobViewDeleteJobButton.setEnabled(false);
+                        jobViewDeleteJobApplButton.setEnabled(true);
+                        jobViewCancelButton.setEnabled(false);
+
                     }
                 }
             }
@@ -602,12 +715,14 @@ public class Home extends JFrame {
             throwables.printStackTrace();
         }
 
-        jobViewWindow.revalidate();
 
         profileWindow.setVisible(false);
         homeWindow.setVisible(false);
         jobViewWindow.setVisible(true);
         addJobWindow.setVisible(false);
+        applyJobPanel.setVisible(false);
+
+        jobViewWindow.revalidate();
     }
 
     private void addJobFunction(){
@@ -617,6 +732,22 @@ public class Home extends JFrame {
         jobViewWindow.setVisible(false);
     }
 
+    private void viewApplication(String application, double cost){
+        applyJobPanel.setVisible(true);
+        applyJobPanel.setEnabled(false);
+
+
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+
+        //applyapplication.setParagraphAttributes(center, false);
+        applyapplication.setText(application);
+        applycost.setText(String.valueOf(cost));
+
+        jobViewWindow.revalidate();
+
+    }
+
 
     public static void main(String[] args) {
         try {
@@ -624,7 +755,5 @@ public class Home extends JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
-
-        new Home("jay");
     }
 }

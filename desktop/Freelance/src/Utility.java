@@ -132,13 +132,20 @@ public class Utility {
         try {
             System.out.println("Connecting to MySql");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection mySqlConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", "password");
+            //Connection mySqlConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", "password");
+            Connection mySqlConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com", "6RXBPbWeHI", "7ZoObPuzQ6");
             System.out.println("Connected to MySql");
-            PreparedStatement createDB = mySqlConn.prepareStatement("CREATE DATABASE IF NOT EXISTS freelancer;");
+
+
+            //PreparedStatement createDB = mySqlConn.prepareStatement("CREATE DATABASE IF NOT EXISTS freelancer;");
+            PreparedStatement createDB = mySqlConn.prepareStatement("CREATE DATABASE IF NOT EXISTS 6RXBPbWeHI;");
             createDB.executeUpdate();
+
+
             mySqlConn.close();
 
-            Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
+            //Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
+            Connection freeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
             System.out.println("Connected to database 'freelancer'");
             PreparedStatement createTableUsers = freeConn.prepareStatement("CREATE TABLE IF NOT EXISTS users ("
                     + "fname VARCHAR(32) NOT NULL,"
@@ -152,6 +159,7 @@ public class Utility {
             createTableUsers.executeUpdate();
             System.out.println("Table Created : users");
 
+            /*
             PreparedStatement createTableJobs = freeConn.prepareStatement("CREATE TABLE IF NOT EXISTS jobs ("
                     + "jobid INT NOT NULL PRIMARY KEY AUTO_INCREMENT,"
                     + "jobtitle TEXT NOT NULL,"
@@ -164,6 +172,31 @@ public class Utility {
             );
             createTableJobs.executeUpdate();
             System.out.println("Table Created : jobs");
+            */
+
+            PreparedStatement createTableJobs = freeConn.prepareStatement("CREATE TABLE IF NOT EXISTS jobs ("
+                    + "jobid INT NOT NULL PRIMARY KEY AUTO_INCREMENT,"
+                    + "jobtitle TEXT NOT NULL,"
+                    + "author VARCHAR(64) NOT NULL,"
+                    + "jobdesc TEXT,"
+                    + "jobdue DATE NOT NULL,"
+                    + "jobcost DECIMAL(8,2) NOT NULL,"
+                    + "FOREIGN KEY (author) REFERENCES users(uname) ON DELETE CASCADE ON UPDATE CASCADE);"
+            );
+            createTableJobs.executeUpdate();
+            System.out.println("Table Created : jobs");
+
+            PreparedStatement createTableApplications = freeConn.prepareStatement("CREATE TABLE IF NOT EXISTS applications ("
+                    + "jobid INT NOT NULL,"
+                    + "applicant VARCHAR(64) NOT NULL,"
+                    + "application TEXT,"
+                    + "cost DECIMAL(8,2) NOT NULL,"
+                    + "PRIMARY KEY (jobid, applicant),"
+                    + "FOREIGN KEY (jobid) REFERENCES jobs(jobid) ON DELETE CASCADE ON UPDATE CASCADE,"
+                    + "FOREIGN KEY (applicant) REFERENCES users(uname) ON DELETE CASCADE ON UPDATE CASCADE);"
+            );
+            createTableApplications.executeUpdate();
+            System.out.println("Table Created : applications");
 
             System.out.println("Tables Created");
             freeConn.close();
@@ -180,7 +213,8 @@ public class Utility {
         try {
             System.out.println("Connecting to Database");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
+            //Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
+            Connection freeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
 
             DatabaseMetaData dbm = freeConn.getMetaData();
             ResultSet userTable = dbm.getTables(null, null, "users", null);
