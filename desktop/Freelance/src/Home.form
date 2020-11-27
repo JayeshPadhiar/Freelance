@@ -722,7 +722,7 @@
                           <gridbag weightx="0.0" weighty="0.0"/>
                         </constraints>
                         <properties>
-                          <text value="Due Date (yy-mm-dd)"/>
+                          <text value="Due (yy-mm-dd)"/>
                         </properties>
                       </component>
                       <vspacer id="e2612">
