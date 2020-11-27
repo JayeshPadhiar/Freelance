@@ -55,8 +55,8 @@ public class Login extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     Class.forName("com.mysql.cj.jdbc.Driver");
-                    //Connection mysqlConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
-                    Connection mysqlConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
+                    Connection mysqlConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
+                    //Connection mysqlConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
 
                     String uname = username.getText();
                     String pass = Arrays.toString(password.getPassword());
@@ -70,6 +70,7 @@ public class Login extends JFrame {
                         new Home(uname);
                         JOptionPane.showMessageDialog(null, "Welcome " + loginResult.getString("fname") + " " + loginResult.getString("lname") + " !");
                         dispose();
+                        mysqlConn.close();
                     }
                     else {
                         JOptionPane.showMessageDialog(null,"Invalid Username of Password", "Error", JOptionPane.ERROR_MESSAGE);
@@ -89,6 +90,7 @@ public class Login extends JFrame {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel ("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+            //UIManager.setLookAndFeel ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }

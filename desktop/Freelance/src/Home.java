@@ -14,9 +14,7 @@ public class Home extends JFrame {
     private String username;
     private int currJobId;
     private String currJobAuthor;
-
     private Connection homeConn;
-
     private final Utility utility;
 
     private JPanel mainCard;
@@ -29,7 +27,7 @@ public class Home extends JFrame {
 
     private JButton profileButton;
     private JButton homeButton;
-    private JButton refreshButton;
+    private JButton myProjectsButton;
     private JButton addJobButton;
 
     private JTable homeJobTable;
@@ -79,6 +77,8 @@ public class Home extends JFrame {
     private JTextArea applyapplication;
     private JTextField applycost;
     private JButton logoutButton;
+    private JButton jobViewAcceptJobApplButton;
+    private JLabel homeLabel;
 
 
     public Home(String user){
@@ -95,15 +95,15 @@ public class Home extends JFrame {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            //this.homeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
-            this.homeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
+            this.homeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
+            //this.homeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
 
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, e, "Error: ", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
 
-        homeFunction();
+        homeFunction(false);
 
         profileButton.addActionListener(new ActionListener() {
             @Override
@@ -115,7 +115,7 @@ public class Home extends JFrame {
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                homeFunction();
+                homeFunction(false);
             }
         });
 
@@ -127,10 +127,10 @@ public class Home extends JFrame {
             }
         });
 
-        refreshButton.addActionListener(new ActionListener() {
+        myProjectsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                jobViewFunction(8);
+                homeFunction(true);
             }
         });
 
@@ -141,6 +141,11 @@ public class Home extends JFrame {
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if(confLogout == JOptionPane.YES_OPTION){
+                    try {
+                        homeConn.close();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                     dispose();
                     new Login();
                 }
@@ -278,7 +283,7 @@ public class Home extends JFrame {
                     JOptionPane.showMessageDialog(null, "Job Post Deleted Successfully");
                     currJobId = -1;
                     currJobAuthor = null;
-                    homeFunction();
+                    homeFunction(false);
 
                 } catch (SQLException throwables) {
                     JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
@@ -291,8 +296,11 @@ public class Home extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 utility.clearPanel(applyJobPanel);
-
                 applyJobPanel.setVisible(false);
+
+                jobViewAcceptJobApplButton.setEnabled(false);
+                jobViewAcceptJobApplButton.setVisible(false);
+
                 jobViewCancelButton.setEnabled(false);
 
                 jobViewWindow.revalidate();
@@ -377,12 +385,16 @@ public class Home extends JFrame {
                     //viewApplication(jobViewApplicationTable.getValueAt(row, 1), jobViewApplicationTable.getValueAt(row, 2));
                     //JOptionPane.showMessageDialog(null, homeJobTable.getValueAt(row, 0));
 
+                    jobViewCancelButton.setEnabled(true);
                     applyJobPanel.setVisible(true);
                     applyJobPanel.setEnabled(false);
                     applyapplication.setEditable(false);
                     applycost.setEditable(false);
 
-
+                    if(currJobAuthor.equals(username)){
+                        jobViewAcceptJobApplButton.setEnabled(true);
+                        jobViewAcceptJobApplButton.setVisible(true);
+                    }
 
                     SimpleAttributeSet center = new SimpleAttributeSet();
                     StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
@@ -401,6 +413,34 @@ public class Home extends JFrame {
             public void mouseClicked(MouseEvent mouseEvent) {
                 super.mouseClicked(mouseEvent);
                 profilePanelFunction(currJobAuthor);
+            }
+        });
+
+        jobViewAcceptJobApplButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+                try {
+                    int selectedRow = jobViewApplicationTable.getSelectedRow();
+                    String applicant = (String) jobViewApplicationTable.getValueAt(selectedRow, 0);
+
+                    int confLogout = JOptionPane.showConfirmDialog(null,"Do you want to select " + applicant + " for this job ?", "Select Applicant For This Job",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE);
+
+                    if(confLogout == JOptionPane.YES_OPTION){
+                        PreparedStatement acceptJobAppl = homeConn.prepareStatement("UPDATE jobs SET closedto=? WHERE jobid=?");
+                        acceptJobAppl.setString(1, applicant);
+                        acceptJobAppl.setInt(2, currJobId);
+                        acceptJobAppl.executeUpdate();
+                        JOptionPane.showMessageDialog(null, "This Job has been given to " + applicant + ".\nVisit the applicant profile for contact information");
+                        jobViewFunction(currJobId);
+                    }
+
+                } catch (SQLException throwables) {
+                    JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
+                    throwables.printStackTrace();
+                }
             }
         });
     }
@@ -451,6 +491,8 @@ public class Home extends JFrame {
     }
 
     private void profilePanelFunction(String username){
+
+        homeLabel.setText("Profile");
 
         try {
             PreparedStatement profileCredQuery = homeConn.prepareStatement("SELECT fname, lname, uname, bio, email, phone FROM users WHERE uname=?");
@@ -542,13 +584,18 @@ public class Home extends JFrame {
         addJobWindow.setVisible(false);
     }
 
-    private void homeFunction(){
+    private void homeFunction(boolean selectedView){
         profileWindow.setVisible(false);
         homeWindow.setVisible(true);
         jobViewWindow.setVisible(false);
         addJobWindow.setVisible(false);
 
-        System.out.println(1);
+        if(!selectedView){
+            homeLabel.setText("Home");
+        }else {
+            homeLabel.setText("Current Projects");
+        }
+
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
@@ -561,9 +608,19 @@ public class Home extends JFrame {
         };
 
         try {
-            PreparedStatement getJobsTable = homeConn.prepareStatement("SELECT jobid, jobtitle, author, jobdue, jobcost FROM jobs;");
-            ResultSet jobsTable = getJobsTable.executeQuery();
 
+            PreparedStatement getJobsTable;
+
+            if(!selectedView){
+                System.out.println("Showing Home View");
+                getJobsTable = homeConn.prepareStatement("SELECT jobid, jobtitle, author, jobdue, jobcost FROM jobs WHERE closedto IS NULL;");
+            }else{
+                System.out.println("Showing Close View");
+                getJobsTable = homeConn.prepareStatement("SELECT jobid, jobtitle, author, jobdue, jobcost FROM jobs WHERE closedto=?;");
+                getJobsTable.setString(1, username);
+            }
+
+            ResultSet jobsTable = getJobsTable.executeQuery();
             while(jobsTable.next())
             {
                 int id = jobsTable.getInt("jobid");
@@ -593,8 +650,10 @@ public class Home extends JFrame {
 
     private void jobViewFunction(int jobID){
 
+        homeLabel.setText("Job");
+
         try {
-            PreparedStatement jobViewQuery = homeConn.prepareStatement("SELECT jobid, jobtitle, author, jobdesc, jobdue, jobcost FROM jobs WHERE jobid=?");
+            PreparedStatement jobViewQuery = homeConn.prepareStatement("SELECT jobid, jobtitle, author, jobdesc, jobdue, jobcost, closedto FROM jobs WHERE jobid=?");
             jobViewQuery.setInt(1, jobID);
             ResultSet jobCreds = jobViewQuery.executeQuery();
 
@@ -664,6 +723,7 @@ public class Home extends JFrame {
                 }
 
                 if(this.username.equals(jobCreds.getString("author"))){
+
                     System.out.println("Same same");
                     jobViewApplyButton.setEnabled(false);
                     jobViewDeleteJobButton.setEnabled(true);
@@ -701,6 +761,11 @@ public class Home extends JFrame {
                         jobViewDeleteJobApplButton.setEnabled(true);
                         jobViewCancelButton.setEnabled(false);
 
+                        if(this.username.equals(jobCreds.getString("closedto"))){
+                            System.out.println("Selected for the Job cannot delete application");
+                            jobViewDeleteJobApplButton.setEnabled(false);
+                        }
+
                     }
                 }
             }
@@ -726,6 +791,10 @@ public class Home extends JFrame {
     }
 
     private void addJobFunction(){
+
+        homeLabel.setText("Post your own Job");
+
+
         profileWindow.setVisible(false);
         homeWindow.setVisible(false);
         addJobWindow.setVisible(true);
@@ -752,6 +821,8 @@ public class Home extends JFrame {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel ("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+            //UIManager.setLookAndFeel ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }

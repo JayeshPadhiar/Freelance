@@ -37,8 +37,8 @@ public class SignUp extends JFrame {
         if (utility.profileValidate(firstname, uname, email, pass, passconf)){
             this.utility.checkDatabase();
             try {
-                //Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
-                Connection freeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
+                Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
+                //Connection freeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
 
                 PreparedStatement insertCreds = freeConn.prepareStatement(
                         "INSERT INTO users (fname, lname, uname, bio, email, phone, password) VALUES (?, ? ,?, ?, ?, ?, MD5(?));"
@@ -111,6 +111,8 @@ public class SignUp extends JFrame {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel ("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+            //UIManager.setLookAndFeel ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
