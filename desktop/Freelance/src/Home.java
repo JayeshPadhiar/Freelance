@@ -11,8 +11,8 @@ import java.util.Arrays;
 
 public class Home extends JFrame {
 
-    private String username;
     private int currJobId;
+    private String username;
     private String currJobAuthor;
     private Connection homeConn;
     private final Utility utility;
@@ -95,8 +95,8 @@ public class Home extends JFrame {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            this.homeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
-            //this.homeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
+            //this.homeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
+            this.homeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
 
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, e, "Error: ", JOptionPane.ERROR_MESSAGE);
@@ -445,20 +445,6 @@ public class Home extends JFrame {
         });
     }
 
-    /*private void viewApplication(String application, double cost){
-        applyJobPanel.setVisible(true);
-        applyJobPanel.setEnabled(false);
-        SimpleAttributeSet center = new SimpleAttributeSet();
-        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-
-        //applyapplication.setParagraphAttributes(center, false);
-        applyapplication.setText(application);
-        applycost.setText(String.valueOf(cost));
-
-        jobViewWindow.revalidate();
-
-    }*/
-
     public void updateUserProfile(){
         if (utility.profileValidate(editfirstname, edituname, editemail, editpass, editpassconf)){
             this.utility.checkDatabase();
@@ -677,22 +663,6 @@ public class Home extends JFrame {
                 };
 
                 try {
-                    /*
-                    PreparedStatement getApplTable = homeConn.prepareStatement("SELECT applicants.* FROM jobs , JSON_TABLE(applied," +
-                            "'$[*]' COLUMNS(uname VARCHAR(64) PATH '$.uname',  application TEXT PATH '$.application', cost DECIMAL(8,2) PATH '$.cost' )) " +
-                            "applicants WHERE jobid=?;");
-                    getApplTable.setInt(1, currJobId);
-                    ResultSet applTable = getApplTable.executeQuery();
-
-                    while(applTable.next())
-                    {
-                        String uname = applTable.getString("uname");
-                        String application = applTable.getString("application");
-                        double cost = applTable.getDouble("cost");
-                        applTableModel.addRow(new Object[]{uname, application, cost});
-                    }
-
-                     */
 
                     PreparedStatement getApplTable = homeConn.prepareStatement("SELECT * FROM applications WHERE jobid=?");
                     getApplTable.setInt(1, currJobId);
@@ -723,24 +693,12 @@ public class Home extends JFrame {
                 }
 
                 if(this.username.equals(jobCreds.getString("author"))){
-
-                    System.out.println("Same same");
                     jobViewApplyButton.setEnabled(false);
                     jobViewDeleteJobButton.setEnabled(true);
                     jobViewDeleteJobApplButton.setEnabled(false);
                     jobViewCancelButton.setEnabled(false);
                 }
                 else{
-
-                    System.out.println("Different");
-
-                    /*
-                    PreparedStatement checkIfApplied = homeConn.prepareStatement("SELECT JSON_CONTAINS(applied, JSON_OBJECT('uname', ?), '$') as applied from jobs " +
-                            "WHERE jobid=?;");
-                    checkIfApplied.setString(1, this.username);
-                    checkIfApplied.setString(2, jobCreds.getString("jobid"));
-                    ResultSet applied = checkIfApplied.executeQuery();
-                    */
 
                     PreparedStatement checkIfApplied = homeConn.prepareStatement("SELECT * FROM applications WHERE applicant=? and jobid=?");
                     checkIfApplied.setString(1, this.username);
@@ -765,7 +723,6 @@ public class Home extends JFrame {
                             System.out.println("Selected for the Job cannot delete application");
                             jobViewDeleteJobApplButton.setEnabled(false);
                         }
-
                     }
                 }
             }
@@ -780,7 +737,6 @@ public class Home extends JFrame {
             throwables.printStackTrace();
         }
 
-
         profileWindow.setVisible(false);
         homeWindow.setVisible(false);
         jobViewWindow.setVisible(true);
@@ -794,7 +750,6 @@ public class Home extends JFrame {
 
         homeLabel.setText("Post your own Job");
 
-
         profileWindow.setVisible(false);
         homeWindow.setVisible(false);
         addJobWindow.setVisible(true);
@@ -805,24 +760,19 @@ public class Home extends JFrame {
         applyJobPanel.setVisible(true);
         applyJobPanel.setEnabled(false);
 
-
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
 
-        //applyapplication.setParagraphAttributes(center, false);
         applyapplication.setText(application);
         applycost.setText(String.valueOf(cost));
 
         jobViewWindow.revalidate();
-
     }
-
 
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel ("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
             //UIManager.setLookAndFeel ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }

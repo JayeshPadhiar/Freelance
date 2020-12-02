@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class SignUp extends JFrame {
 
-    private Utility utility;
+    private final Utility utility;
 
     private JPanel mainPanel;
     private JTextField firstname;
@@ -37,8 +37,8 @@ public class SignUp extends JFrame {
         if (utility.profileValidate(firstname, uname, email, pass, passconf)){
             this.utility.checkDatabase();
             try {
-                Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
-                //Connection freeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
+                //Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
+                Connection freeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
 
                 PreparedStatement insertCreds = freeConn.prepareStatement(
                         "INSERT INTO users (fname, lname, uname, bio, email, phone, password) VALUES (?, ? ,?, ?, ?, ?, MD5(?));"
