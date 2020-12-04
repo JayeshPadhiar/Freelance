@@ -96,7 +96,8 @@ public class Home extends JFrame {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             //this.homeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
-            this.homeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
+            this.homeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true",
+                    "6RXBPbWeHI", "7ZoObPuzQ6");
 
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, e, "Error: ", JOptionPane.ERROR_MESSAGE);
@@ -196,7 +197,8 @@ public class Home extends JFrame {
                         //freeConn.close();
                     }
                     catch (SQLException throwables) {
-                        JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(),
+                                "Try Again", JOptionPane.ERROR_MESSAGE);
                         utility.checkDatabase();
                         throwables.printStackTrace();
                     }
@@ -242,7 +244,8 @@ public class Home extends JFrame {
                             jobViewFunction(currJobId);
                         }
                         catch (SQLException throwables) {
-                            JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(),
+                                    "Try Again", JOptionPane.ERROR_MESSAGE);
                             utility.checkDatabase();
                             throwables.printStackTrace();
                         }
@@ -286,7 +289,8 @@ public class Home extends JFrame {
                     homeFunction(false);
 
                 } catch (SQLException throwables) {
-                    JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(),
+                            "Try Again", JOptionPane.ERROR_MESSAGE);
                     throwables.printStackTrace();
                 }
             }
@@ -334,7 +338,8 @@ public class Home extends JFrame {
                     jobViewFunction(currJobId);
 
                 } catch (SQLException throwables) {
-                    JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(),
+                            "Try Again", JOptionPane.ERROR_MESSAGE);
                     throwables.printStackTrace();
                 }
             }
@@ -424,7 +429,8 @@ public class Home extends JFrame {
                     int selectedRow = jobViewApplicationTable.getSelectedRow();
                     String applicant = (String) jobViewApplicationTable.getValueAt(selectedRow, 0);
 
-                    int confLogout = JOptionPane.showConfirmDialog(null,"Do you want to select " + applicant + " for this job ?", "Select Applicant For This Job",
+                    int confLogout = JOptionPane.showConfirmDialog(null,"Do you want to select " +
+                                    applicant + " for this job ?", "Select Applicant For This Job",
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
 
@@ -433,12 +439,14 @@ public class Home extends JFrame {
                         acceptJobAppl.setString(1, applicant);
                         acceptJobAppl.setInt(2, currJobId);
                         acceptJobAppl.executeUpdate();
-                        JOptionPane.showMessageDialog(null, "This Job has been given to " + applicant + ".\nVisit the applicant profile for contact information");
+                        JOptionPane.showMessageDialog(null, "This Job has been given to " +
+                                applicant + ".\nVisit the applicant profile for contact information");
                         jobViewFunction(currJobId);
                     }
 
                 } catch (SQLException throwables) {
-                    JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(),
+                            "Try Again", JOptionPane.ERROR_MESSAGE);
                     throwables.printStackTrace();
                 }
             }
@@ -535,7 +543,8 @@ public class Home extends JFrame {
                     //columnModel.getColumn(1).setPreferredWidth((int)(homeWindow.getWidth()/2.5));
                 }
                 catch (SQLException throwables) {
-                    JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(),
+                            "Try Again", JOptionPane.ERROR_MESSAGE);
                     utility.checkDatabase();
                     throwables.printStackTrace();
                 }
@@ -639,7 +648,8 @@ public class Home extends JFrame {
         homeLabel.setText("Job");
 
         try {
-            PreparedStatement jobViewQuery = homeConn.prepareStatement("SELECT jobid, jobtitle, author, jobdesc, jobdue, jobcost, closedto FROM jobs WHERE jobid=?");
+            PreparedStatement jobViewQuery = homeConn.prepareStatement("SELECT jobid, jobtitle, author, jobdesc, " +
+                    "jobdue, jobcost, closedto FROM jobs WHERE jobid=?");
             jobViewQuery.setInt(1, jobID);
             ResultSet jobCreds = jobViewQuery.executeQuery();
 
@@ -687,7 +697,8 @@ public class Home extends JFrame {
                     //columnModel.getColumn(1).setPreferredWidth((int)(homeWindow.getWidth()/2.5));
                 }
                 catch (SQLException throwables) {
-                    JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(), "Try Again", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Error : " + throwables.getMessage(),
+                            "Try Again", JOptionPane.ERROR_MESSAGE);
                     utility.checkDatabase();
                     throwables.printStackTrace();
                 }

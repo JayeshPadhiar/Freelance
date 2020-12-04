@@ -56,7 +56,8 @@ public class Login extends JFrame {
                 try {
                     Class.forName("com.mysql.cj.jdbc.Driver");
                     //Connection mysqlConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
-                    Connection mysqlConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
+                    Connection mysqlConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true",
+                            "6RXBPbWeHI", "7ZoObPuzQ6");
 
                     String uname = username.getText();
                     String pass = Arrays.toString(password.getPassword());
@@ -68,7 +69,8 @@ public class Login extends JFrame {
 
                     if (loginResult.next()){
                         new Home(uname);
-                        JOptionPane.showMessageDialog(null, "Welcome " + loginResult.getString("fname") + " " + loginResult.getString("lname") + " !");
+                        JOptionPane.showMessageDialog(null, "Welcome " + loginResult.getString("fname") + " " +
+                                loginResult.getString("lname") + " !");
                         dispose();
                         mysqlConn.close();
                     }

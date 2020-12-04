@@ -141,7 +141,8 @@ public class Utility {
             mySqlConn.close();
 
             //Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
-            Connection freeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
+            Connection freeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true",
+                    "6RXBPbWeHI", "7ZoObPuzQ6");
             System.out.println("Connected to database 'freelancer'");
             PreparedStatement createTableUsers = freeConn.prepareStatement("CREATE TABLE IF NOT EXISTS users ("
                     + "fname VARCHAR(32) NOT NULL,"
@@ -197,7 +198,8 @@ public class Utility {
             System.out.println("Connecting to Database");
             Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
-            Connection freeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true", "6RXBPbWeHI", "7ZoObPuzQ6");
+            Connection freeConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true",
+                    "6RXBPbWeHI", "7ZoObPuzQ6");
 
             DatabaseMetaData dbm = freeConn.getMetaData();
             ResultSet userTable = dbm.getTables(null, null, "users", null);
