@@ -179,7 +179,7 @@ public class Home extends JFrame {
                     utility.checkDatabase();
                     try {
                         PreparedStatement insertJobPost = homeConn.prepareStatement(
-                                "INSERT INTO jobs (jobtitle, author, jobdesc, jobdue, jobcost) VALUES (?, ? ,?, ?, ?);"
+                                "INSERT INTO jobs (jobtitle, author, jobdesc, jobdue, jobcost) VALUES (?, ?, ?, ?, ?);"
                         );
 
                         insertJobPost.setString(1, newJobTitle.getText());
