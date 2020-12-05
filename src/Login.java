@@ -55,9 +55,7 @@ public class Login extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     Class.forName("com.mysql.cj.jdbc.Driver");
-                    //Connection mysqlConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
-                    Connection mysqlConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/6RXBPbWeHI?autoReconnect=true",
-                            "6RXBPbWeHI", "7ZoObPuzQ6");
+                    Connection mysqlConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
 
                     String uname = username.getText();
                     String pass = Arrays.toString(password.getPassword());
