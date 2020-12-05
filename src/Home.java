@@ -235,7 +235,7 @@ public class Home extends JFrame {
                             applyJob.setString(4, applycost.getText());
                             applyJob.executeUpdate();
 
-                            JOptionPane.showMessageDialog(null, "Job Applied!");
+                            JOptionPane.showMessageDialog(null, "Applied for the Job Successfully !");
                             utility.clearPanel(applyJobPanel);
 
                             applyJobPanel.revalidate();
