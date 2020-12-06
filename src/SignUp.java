@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 public class SignUp extends JFrame {
 
     private final Utility utility;
+    public DBCreds dbCreds;
 
     private JPanel mainPanel;
     private JTextField firstname;
@@ -37,7 +38,7 @@ public class SignUp extends JFrame {
         if (utility.profileValidate(firstname, uname, email, pass, passconf)){
             this.utility.checkDatabase();
             try {
-                Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
+                Connection freeConn = DriverManager.getConnection(this.dbCreds.dbUrl, this.dbCreds.user, this.dbCreds.pass);
 
                 PreparedStatement insertCreds = freeConn.prepareStatement(
                         "INSERT INTO users (fname, lname, uname, bio, email, phone, password) VALUES (?, ? ,?, ?, ?, ?, MD5(?));"
@@ -69,6 +70,7 @@ public class SignUp extends JFrame {
     public SignUp(){
 
         this.utility = new Utility();
+        this.dbCreds = new DBCreds();
 
         setTitle("Freelancer - SignUp");
         setContentPane(mainPanel);

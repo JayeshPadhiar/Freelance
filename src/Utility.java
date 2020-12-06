@@ -13,8 +13,10 @@ public class Utility {
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private static final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+    public DBCreds dbCreds;
 
     public Utility(){
+        this.dbCreds = new DBCreds();
     }
 
     public void clearPanel(JComponent panel){
@@ -129,16 +131,16 @@ public class Utility {
         try {
             System.out.println("Connecting to MySql");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection mySqlConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", "password");
+            Connection mySqlConn = DriverManager.getConnection(this.dbCreds.url, this.dbCreds.user, this.dbCreds.pass);
             System.out.println("Connected to MySql");
 
 
-            PreparedStatement createDB = mySqlConn.prepareStatement("CREATE DATABASE IF NOT EXISTS freelancer;");
+            PreparedStatement createDB = mySqlConn.prepareStatement("CREATE DATABASE IF NOT EXISTS "+this.dbCreds.dbName+";");
             createDB.executeUpdate();
 
             mySqlConn.close();
 
-            Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
+            Connection freeConn = DriverManager.getConnection(this.dbCreds.dbUrl, this.dbCreds.user, this.dbCreds.pass);
             System.out.println("Connected to database 'freelancer'");
             PreparedStatement createTableUsers = freeConn.prepareStatement("CREATE TABLE IF NOT EXISTS users ("
                     + "fname VARCHAR(32) NOT NULL,"
@@ -193,7 +195,7 @@ public class Utility {
         try {
             System.out.println("Connecting to Database");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection freeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
+            Connection freeConn = DriverManager.getConnection(this.dbCreds.dbUrl, this.dbCreds.user, this.dbCreds.pass);
 
             DatabaseMetaData dbm = freeConn.getMetaData();
             ResultSet userTable = dbm.getTables(null, null, "users", null);

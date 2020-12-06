@@ -10,6 +10,7 @@ import java.util.Arrays;
 public class Login extends JFrame {
 
     private final Utility utility;
+    public DBCreds dbCreds;
 
     private JPanel loginPanel;
     private JTextField username;
@@ -22,6 +23,7 @@ public class Login extends JFrame {
     public Login(){
 
         this.utility = new Utility();
+        this.dbCreds = new DBCreds();
 
         setTitle("Freelancer");
         setContentPane(loginPanel);
@@ -55,7 +57,7 @@ public class Login extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     Class.forName("com.mysql.cj.jdbc.Driver");
-                    Connection mysqlConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
+                    Connection mysqlConn = DriverManager.getConnection(dbCreds.dbUrl, dbCreds.user, dbCreds.pass);
 
                     String uname = username.getText();
                     String pass = Arrays.toString(password.getPassword());

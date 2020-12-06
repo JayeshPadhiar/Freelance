@@ -15,7 +15,9 @@ public class Home extends JFrame {
     private String username;
     private String currJobAuthor;
     private Connection homeConn;
+
     private final Utility utility;
+    public DBCreds dbCreds;
 
     private JPanel mainCard;
 
@@ -84,6 +86,7 @@ public class Home extends JFrame {
     public Home(String user){
         this.username = user;
         this.utility = new Utility();
+        this.dbCreds = new DBCreds();
 
         setTitle("Freelancer");
         setContentPane(homePanel);
@@ -95,7 +98,7 @@ public class Home extends JFrame {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            this.homeConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/freelancer", "root", "password");
+            this.homeConn = DriverManager.getConnection(this.dbCreds.dbUrl, this.dbCreds.user, this.dbCreds.pass);
 
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, e, "Error: ", JOptionPane.ERROR_MESSAGE);
@@ -215,18 +218,6 @@ public class Home extends JFrame {
                         utility.checkDatabase();
                         try {
 
-                            /*
-                            PreparedStatement applyJob = homeConn.prepareStatement(
-                                    "UPDATE jobs SET applied = JSON_ARRAY_APPEND(" +
-                                            "COALESCE(applied, '[]'), '$', JSON_OBJECT('uname', ?, 'application', ?, 'cost', ?)) WHERE jobid=?;"
-                            );
-                            applyJob.setString(1, username);
-                            applyJob.setString(2, applyapplication.getText());
-                            applyJob.setString(3, applycost.getText());
-                            applyJob.setInt(4, currJobId);
-                            applyJob.executeUpdate();
-                            */
-
                             PreparedStatement applyJob = homeConn.prepareStatement("INSERT INTO applications(jobid, applicant, application, cost) " +
                                     "VALUES (?, ?, ?, ?)");
                             applyJob.setInt(1, currJobId);
@@ -313,16 +304,6 @@ public class Home extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    /*
-                    PreparedStatement deleteJobAppl = homeConn.prepareStatement(
-                            "UPDATE jobs SET applied=JSON_REMOVE(applied, SUBSTR(JSON_UNQUOTE(" +
-                                    "JSON_SEARCH(applied, 'one', ?)), 1, LOCATE('.', JSON_UNQUOTE(JSON_SEARCH(applied, 'one', ?)))-1)) WHERE jobid=?;"
-                    );
-                    deleteJobAppl.setString(1, username);
-                    deleteJobAppl.setString(2, username);
-                    deleteJobAppl.setInt(3, currJobId);
-                    deleteJobAppl.executeUpdate();
-                    */
 
                     PreparedStatement deleteJobAppl = homeConn.prepareStatement(
                             "DELETE FROM applications WHERE jobid=? AND applicant=?;"
