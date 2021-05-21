@@ -1,6 +1,5 @@
 # Freelance
-A Java Based Desktop Application for Freelancing
-
+Java based desktop application developed for freelancing solutions with a well defined usablity for both Freelancers and Recruiters.
 
 ### Login Window
 ![Login Window](https://github.com/JayeshPadhiar/Freelance/blob/master/screenshots/login.png)
